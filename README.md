@@ -1,6 +1,5 @@
 # miit_fdp
-Day 1 Content
-Introduction to Verilog RTL design and Synthesis
+Day 1 : Introduction to Verilog RTL design and Synthesis
 Labs using iverilog and gtkwave
 mkdir vsd  
  cd vsd  
