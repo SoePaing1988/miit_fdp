@@ -1,7 +1,9 @@
 # miit_fdp
-Day 1 : Introduction to Verilog RTL design and Synthesis
+Day 1 : Introduction to Verilog RTL design and Synthesis 
+
 Labs using iverilog and gtkwave
-mkdir vsd  
+
+ mkdir vsd  
  cd vsd  
  git clone https://github.com/kunalg123/vsdflow.git  
  mkdir vlsi  
