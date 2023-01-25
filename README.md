@@ -352,11 +352,29 @@ vim dff_const1.v
 
 ![s1](https://user-images.githubusercontent.com/123365615/214625720-3c82b6fb-b609-4e95-ab58-4538d48f9a1e.PNG)
 
+iverilog dff_const1.v tb_dff_const1.v
+
+./a.out
+
+gtkwave tb_dff_const1.vcd
+
+![s5](https://user-images.githubusercontent.com/123365615/214633091-69cc4cbe-a229-44ba-aebb-3f4e5ce4acaa.PNG)
+
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+read_verilog dff_const1.v
+
+synth -top dff_const1
+
 dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+
 write_verilog -noattr dff_const1_netlist.v 
+
 show
+
+![s6](https://user-images.githubusercontent.com/123365615/214635875-20af3330-ae11-47c5-a9da-fc107468cd35.PNG)
 
 # Example 2: dff_const2.v
 
@@ -364,11 +382,29 @@ vim dff_const2.v
 
 ![s2](https://user-images.githubusercontent.com/123365615/214628722-4ab54c77-6bd8-4180-99c9-6def16c0a917.PNG)
 
-dfflibmaop -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+iverilog dff_const2.v tb_dff_const2.v
+
+./a.out
+
+gtkwave tb_dff_const2.vcd
+
+![s8](https://user-images.githubusercontent.com/123365615/214639650-b0aed62f-e315-42f1-90ee-c8529d96c710.PNG)
+
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+read_verilog dff_const2.v
+
+synth -top dff_const2
+
+dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+
 write_verilog -noattr dff_const2_netlist.v 
+
 show
+
+![s7](https://user-images.githubusercontent.com/123365615/214638439-e8913f4c-e388-47a2-a417-29dc11a71b9c.PNG)
 
 # Example 3: dff_const3.v
 
@@ -376,11 +412,29 @@ vim dff_const3.v
 
 ![s3](https://user-images.githubusercontent.com/123365615/214628873-2fe56a6e-4035-4c4e-8475-c4df4c294c5d.PNG)
 
+iverilog dff_const3.v tb_dff_const3.v
+
+./a.out
+
+gtkwave tb_dff_const3.vcd
+
+![s9](https://user-images.githubusercontent.com/123365615/214641311-237fa492-dc26-4f3d-81cf-bf8a8d5d5d98.PNG)
+
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+read_verilog dff_const3.v
+
+synth -top dff_const3
+
 dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+
 write_verilog -noattr dff_const3_netlist.v 
+
 show
+
+![s11](https://user-images.githubusercontent.com/123365615/214643434-aa3f2864-499b-4b4b-81e9-07f0e17613db.PNG)
 
 # Example 4: dff_const4.v
 
@@ -388,11 +442,37 @@ vim dff_const4.v
 
 ![s4](https://user-images.githubusercontent.com/123365615/214628960-adb1600f-3ae4-431a-ac71-22f14e4a964f.PNG)
 
+iverilog dff_const4.v tb_dff_const4.v
+
+./a.out
+
+gtkwave tb_dff_const4.vcd
+
+![s10](https://user-images.githubusercontent.com/123365615/214642332-c4b552be-da6a-4f14-a19f-6c1ece260fbd.PNG)
+
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+read_verilog dff_const4.v
+
+synth -top dff_const4
+
 dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+
 write_verilog -noattr dff_const4_netlist.v 
+
 show
+
+![s12](https://user-images.githubusercontent.com/123365615/214644050-6c26ea6e-2fae-498b-8f6f-2912f5f702e9.PNG)
+
+
+
+
+
+
+
+
 
 
 
