@@ -214,6 +214,7 @@ write_verilog -noattr opt_check_netlist.v
 
 show
 
+![a2](https://user-images.githubusercontent.com/123365615/214564585-9bf2d5b2-ea87-4298-b1fd-bd042c96e0b9.PNG)
 
 
 # Example 2: opt_check2.v
@@ -230,6 +231,9 @@ write_verilog -noattr opt_check2_netlist.v
 
 show
 
+![a3](https://user-images.githubusercontent.com/123365615/214565258-111480bd-0d48-44e5-b716-5f6d726e9c1e.PNG)
+
+
 # Example 3:opt_check3.v
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
@@ -243,6 +247,9 @@ abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 write_verilog -noattr opt_check3_netlist.v 
 
 show
+
+![a4](https://user-images.githubusercontent.com/123365615/214565792-aa70ae43-0b33-433f-86c8-fa69fde12daf.PNG)
+
 
 # Example 4: opt_check4.v
 
@@ -260,9 +267,13 @@ write_verilog -noattr opt_check4_netlist.v
 
 show
 
+![a5](https://user-images.githubusercontent.com/123365615/214567264-9ddad9b2-c009-4f04-8f6c-4205224b445e.PNG)
+
 # Example 5: multiple_module_opt.v
 
 !vim multiple_module_opt.v
+
+![a7](https://user-images.githubusercontent.com/123365615/214567637-9ca7d677-38f4-4b1f-a39b-754aed012b24.PNG)
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -270,11 +281,16 @@ read_verilog multiple_module_opt.v
 
 synth -top multiple_module_opt
 
+flatten
+
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 write_verilog -noattr multiple_module_opt_netlist.v 
 
 show
+
+![a8](https://user-images.githubusercontent.com/123365615/214568485-9d60362e-be20-40b8-8c6d-2f9918df85fb.PNG)
+
 
 # Example 6: multiple_module_opt2.v
 
@@ -284,11 +300,16 @@ read_verilog multiple_module_opt2.v
 
 synth -top multiple_module_opt2
 
+flatten
+
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 write_verilog -noattr multiple_module_opt2_netlist.v 
 
 show
+
+![a9](https://user-images.githubusercontent.com/123365615/214569012-8fff7da6-a0f6-45ea-8d6b-b8932294d7f1.PNG)
+
 
 # Sequential Logic Optimisations
 
