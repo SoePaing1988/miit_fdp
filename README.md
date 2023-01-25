@@ -199,8 +199,6 @@ gtkwave tb_dff_asyncres.vcd
 
 # Combinational Logic Optimisations
 
-![a1](https://user-images.githubusercontent.com/123365615/214541758-cf805f8b-fc9a-4f52-a4f0-d6f0024dd911.PNG)
-
 # Example 1
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -213,6 +211,8 @@ abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 write_verilog -noattr opt_check_netlist.v 
 
 show
+
+![a1](https://user-images.githubusercontent.com/123365615/214541758-cf805f8b-fc9a-4f52-a4f0-d6f0024dd911.PNG)
 
 # Example 2
 
