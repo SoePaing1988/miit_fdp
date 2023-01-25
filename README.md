@@ -348,6 +348,10 @@ show
 
 # Example 1: dff_const1.v
 
+vim dff_const1.v
+
+![s1](https://user-images.githubusercontent.com/123365615/214625720-3c82b6fb-b609-4e95-ab58-4538d48f9a1e.PNG)
+
 dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
@@ -356,13 +360,21 @@ show
 
 # Example 2: dff_const2.v
 
+vim dff_const2.v
+
+![s2](https://user-images.githubusercontent.com/123365615/214628722-4ab54c77-6bd8-4180-99c9-6def16c0a917.PNG)
+
 dfflibmaop -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 write_verilog -noattr dff_const2_netlist.v 
 show
 
-# Example 3: dff_const1.v
+# Example 3: dff_const3.v
+
+vim dff_const3.v
+
+![s3](https://user-images.githubusercontent.com/123365615/214628873-2fe56a6e-4035-4c4e-8475-c4df4c294c5d.PNG)
 
 dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
@@ -370,7 +382,11 @@ abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 write_verilog -noattr dff_const3_netlist.v 
 show
 
-# Example 4: dff_const1.v
+# Example 4: dff_const4.v
+
+vim dff_const4.v
+
+![s4](https://user-images.githubusercontent.com/123365615/214628960-adb1600f-3ae4-431a-ac71-22f14e4a964f.PNG)
 
 dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
