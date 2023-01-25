@@ -159,6 +159,17 @@ gtkwave tb_dff_asyncres.vcd
 
 ![c18](https://user-images.githubusercontent.com/123365615/214492195-5b473fb1-0537-4f73-85b9-fbac4c20e179.PNG)
 
+Synthesis implementation results :
+asynchoronous reset :
+
+asynchoronous set :
+
+Synthesis Results:
+
+RTL CODE:
+
+Synthesis Results:
+
 
 OPTIMISATIONS
 
