@@ -82,6 +82,14 @@ The lib contains different flavors of this same as well as different types of ce
 
 ![c3](https://user-images.githubusercontent.com/123365615/214469737-5271f59a-2394-4cba-9579-f5fc043be768.PNG)
 
+The lib contains different flavors of this same as well as different types of cells.
+
+![c4](https://user-images.githubusercontent.com/123365615/214470489-daab5614-5a75-4e03-8fb7-d2eef07613b5.PNG)
+
+![c5](https://user-images.githubusercontent.com/123365615/214470914-b589af3b-85ee-4182-a344-ffc5f74053b3.PNG)
+
+
+
 
 
 
