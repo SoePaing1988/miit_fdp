@@ -120,6 +120,26 @@ synth -top multiple_modules
 
 ![c11](https://user-images.githubusercontent.com/123365615/214482371-a2b8f37c-9294-4693-88ca-bf2c548ee748.PNG)
 
+show multiple_modules
+
+![c12](https://user-images.githubusercontent.com/123365615/214482920-55f2dfaa-c060-4642-b608-3375f217ebbb.PNG)
+
+write_verilog multiple_modules.hier.v
+
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+!vim multiple_modules.hier.v 
+
+flatten
+show
+
+![c13](https://user-images.githubusercontent.com/123365615/214483629-bab5ae03-a318-4c14-a046-d617db135419.PNG)
+
+
+![c14](https://user-images.githubusercontent.com/123365615/214485987-9eeadce9-f389-4ae2-b49e-79e9b2ae08b6.PNG)
+
+
+
 
 
 
