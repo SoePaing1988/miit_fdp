@@ -195,6 +195,10 @@ gtkwave tb_dff_asyncres.vcd
 
 ![image](https://user-images.githubusercontent.com/123365615/214515256-1f9783c8-9215-4a03-b7d3-e675c239143d.png)
 
+# DAY 3 : Combinational and Sequential Optimisations
+
+# Combinational Logic Optimisations
+
 
 
 
