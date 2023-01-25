@@ -160,18 +160,43 @@ gtkwave tb_dff_asyncres.vcd
 ![c18](https://user-images.githubusercontent.com/123365615/214492195-5b473fb1-0537-4f73-85b9-fbac4c20e179.PNG)
 
 Synthesis implementation results :
+
 asynchoronous reset :
+
+![image](https://user-images.githubusercontent.com/123365615/214512361-aca28e93-0901-4a53-8923-72d01c9c63f4.png)
 
 asynchoronous set :
 
+![image](https://user-images.githubusercontent.com/123365615/214512486-1eaf8094-db86-4215-aa98-5ba78692cb45.png)
+
+Synchronous Reset and set : 
+
+![C19](https://user-images.githubusercontent.com/123365615/214514170-8116a50d-af67-4c75-a2e6-2f8a61de10f7.PNG)
+
+
 Synthesis Results:
+
+![image](https://user-images.githubusercontent.com/123365615/214513823-68d5f342-cab2-4359-af3a-3105949d128a.png)
+
 
 RTL CODE:
 
+![image](https://user-images.githubusercontent.com/123365615/214513880-21584d67-18dd-4fe7-9432-59570fa9964a.png)
+
+
 Synthesis Results:
 
+![image](https://user-images.githubusercontent.com/123365615/214513923-b23ae7a0-2305-4264-9802-ef76258ba4e5.png)
 
 OPTIMISATIONS
+
+![C20](https://user-images.githubusercontent.com/123365615/214514537-bfd5be37-c759-42c5-aaed-19ca24f8e568.PNG)
+
+![image](https://user-images.githubusercontent.com/123365615/214514618-e804157a-58e5-45c3-9bba-f459f136847e.png)
+
+![image](https://user-images.githubusercontent.com/123365615/214514685-94039505-5af3-4841-b92c-8f391cdbe863.png)
+
+
 
 
 
