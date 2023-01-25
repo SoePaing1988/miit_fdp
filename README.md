@@ -104,6 +104,20 @@ The library also represents the different features of the cell like its leakage 
 
 HIERARCHIAL VS FLAT SYNTHESIS
 
+vim multiple_modules.v
+
+![c9](https://user-images.githubusercontent.com/123365615/214479914-b901e696-26eb-447e-8e93-44cff5c7422c.PNG)
+
+yosys
+
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+
+
+
+
+
+
 
 
 
