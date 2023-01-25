@@ -278,14 +278,15 @@ vim opt_check4.v
 
 ![a03](https://user-images.githubusercontent.com/123365615/214609606-671bd73b-16e9-46a9-8676-f9da3055ecac.PNG)
 
-
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 read_verilog opt_check4.v
 
 synth -top opt_check4
 
-![a6](https://user-images.githubusercontent.com/123365615/214557460-84b841d4-4c02-4462-8ce5-255f82afb23f.PNG)
+opt_clean -purge
+
+![ab1](https://user-images.githubusercontent.com/123365615/214617000-bb47def6-9c73-4d6f-a7f1-1c7b116f3e13.PNG)
 
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -297,9 +298,9 @@ show
 
 # Example 5: multiple_module_opt.v
 
-!vim multiple_module_opt.v
+vim multiple_module_opt.v
 
-![a7](https://user-images.githubusercontent.com/123365615/214567637-9ca7d677-38f4-4b1f-a39b-754aed012b24.PNG)
+![ab11](https://user-images.githubusercontent.com/123365615/214618053-7b926404-2d52-4f5b-a3b7-529c2449460b.PNG)
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -307,7 +308,11 @@ read_verilog multiple_module_opt.v
 
 synth -top multiple_module_opt
 
+opt_clean -purge
+
 flatten
+
+![ab7](https://user-images.githubusercontent.com/123365615/214619198-0738a4ba-be37-4a33-adb5-f9b78215597e.PNG)
 
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -315,16 +320,21 @@ write_verilog -noattr multiple_module_opt_netlist.v
 
 show
 
-![a8](https://user-images.githubusercontent.com/123365615/214568485-9d60362e-be20-40b8-8c6d-2f9918df85fb.PNG)
-
+![a8](https://user-images.githubusercontent.com/123365615/214621734-42f4972e-7973-4e9b-9758-0c03ba0fac98.PNG)
 
 # Example 6: multiple_module_opt2.v
+
+vim multiple_module_opt2.v
+
+![a9](https://user-images.githubusercontent.com/123365615/214622511-3ad7712c-d085-4e8f-8761-18b84a226573.PNG)
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 read_verilog multiple_module_opt2.v
 
 synth -top multiple_module_opt2
+
+opt_clean -purge
 
 flatten
 
@@ -334,8 +344,7 @@ write_verilog -noattr multiple_module_opt2_netlist.v
 
 show
 
-![a9](https://user-images.githubusercontent.com/123365615/214569012-8fff7da6-a0f6-45ea-8d6b-b8932294d7f1.PNG)
-
+![a9](https://user-images.githubusercontent.com/123365615/214624095-99f4d7e2-69c4-4a00-bfbf-d96a6f108d71.PNG)
 
 # Sequential Logic Optimisations
 
