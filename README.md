@@ -315,7 +315,7 @@ show
 
 # Example 1: dff_const1.v
 
-dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 write_verilog -noattr dff_const1_netlist.v 
@@ -323,7 +323,7 @@ show
 
 # Example 2: dff_const2.v
 
-dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+dfflibmaop -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 write_verilog -noattr dff_const2_netlist.v 
@@ -331,7 +331,7 @@ show
 
 # Example 3: dff_const1.v
 
-dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 write_verilog -noattr dff_const3_netlist.v 
@@ -339,7 +339,7 @@ show
 
 # Example 4: dff_const1.v
 
-dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
 abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 write_verilog -noattr dff_const4_netlist.v 
