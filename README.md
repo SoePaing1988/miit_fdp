@@ -78,7 +78,7 @@ Switching off the syntax color red
   
 Enabling the line numbers
 
-  Command used :se nu
+  Command used : se nu
   
 The voltage process and temperature conditions are also specified.
 
