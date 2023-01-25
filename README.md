@@ -41,10 +41,15 @@ gvim tb_good_mux.v -o good_mux.v
 Labs using Yosys and Sky130 PDKs
 
 yosys
+
 read_liberty -lib ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
 read_verilog good_mux.v
+
 synth -top good_mux
+
 abc -liberty ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
 show
 
 ![pic 7](https://user-images.githubusercontent.com/123365615/214268038-cdb72106-c621-4449-a791-247138b61229.PNG)
@@ -56,6 +61,7 @@ show
 ![pic 10](https://user-images.githubusercontent.com/123365615/214268357-011b448c-11cb-4a30-88ea-01e791dec386.PNG)
 
 write_verilog -noattr good_mux_netlist.v
+
 !gvim  good mux_netlist.v
 
 ![pic 11](https://user-images.githubusercontent.com/123365615/214268277-f7e77afe-d4b8-464c-8867-cbacade01b1d.PNG)
@@ -75,8 +81,6 @@ Enabling the line numbers
   Command used :se nu
   
 The voltage process and temperature conditions are also specified.
-
-The lib contains different flavors of this same as well as different types of cells.
 
 ![c2](https://user-images.githubusercontent.com/123365615/214469704-904e2ed5-c157-47fc-b5dc-0265b810741b.PNG)
 
