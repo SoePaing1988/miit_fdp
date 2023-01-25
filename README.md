@@ -199,7 +199,7 @@ gtkwave tb_dff_asyncres.vcd
 
 # Combinational Logic Optimisations
 
-# Example 1
+# Example 1: opt_check.v
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 read_verilog opt_check.v
@@ -216,7 +216,7 @@ show
 
 
 
-# Example 2
+# Example 2: opt_check2.v
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -230,7 +230,7 @@ write_verilog -noattr opt_check2_netlist.v
 
 show
 
-# Example 3
+# Example 3:opt_check3.v
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -244,7 +244,7 @@ write_verilog -noattr opt_check3_netlist.v
 
 show
 
-# Example 4
+# Example 4: opt_check4.v
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -252,13 +252,17 @@ read_verilog opt_check4.v
 
 synth -top opt_check4
 
+![a6](https://user-images.githubusercontent.com/123365615/214557460-84b841d4-4c02-4462-8ce5-255f82afb23f.PNG)
+
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 write_verilog -noattr opt_check4_netlist.v 
 
 show
 
-# Example 5
+# Example 5: multiple_module_opt.v
+
+!vim multiple_module_opt.v
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -272,7 +276,7 @@ write_verilog -noattr multiple_module_opt_netlist.v
 
 show
 
-# Example 6
+# Example 6: multiple_module_opt2.v
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -285,6 +289,45 @@ abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 write_verilog -noattr multiple_module_opt2_netlist.v 
 
 show
+
+# Sequential Logic Optimisations
+
+# Example 1: dff_const1.v
+
+dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+
+abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+write_verilog -noattr dff_const1_netlist.v 
+show
+
+# Example 2: dff_const2.v
+
+dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+
+abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+write_verilog -noattr dff_const2_netlist.v 
+show
+
+# Example 3: dff_const1.v
+
+dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+
+abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+write_verilog -noattr dff_const3_netlist.v 
+show
+
+# Example 4: dff_const1.v
+
+dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+
+abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+write_verilog -noattr dff_const4_netlist.v 
+show
+
+
+
+
+
 
 
 
