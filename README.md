@@ -200,11 +200,18 @@ gtkwave tb_dff_asyncres.vcd
 # Combinational Logic Optimisations
 
 # Example 1: opt_check.v
+
+vim opt_check.v
+
+![a0](https://user-images.githubusercontent.com/123365615/214607368-b60555a2-dedb-416a-8429-7945c2572304.PNG)
+
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 read_verilog opt_check.v
 
 synth -top opt_check
+
+opt_clean -purge
 
 ![a1](https://user-images.githubusercontent.com/123365615/214541758-cf805f8b-fc9a-4f52-a4f0-d6f0024dd911.PNG)
 
@@ -216,8 +223,11 @@ show
 
 ![a2](https://user-images.githubusercontent.com/123365615/214564585-9bf2d5b2-ea87-4298-b1fd-bd042c96e0b9.PNG)
 
-
 # Example 2: opt_check2.v
+
+vim opt_check2.v
+
+![a01](https://user-images.githubusercontent.com/123365615/214608542-002a42df-4813-4c57-baf3-ec58c0c77139.PNG)
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -225,22 +235,33 @@ read_verilog opt_check2.v
 
 synth -top opt_check2
 
+opt_clean -purge
+
+![a11](https://user-images.githubusercontent.com/123365615/214610463-a9f69d79-d03f-4411-8078-47b8ad27ca7a.PNG)
+
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 write_verilog -noattr opt_check2_netlist.v 
 
 show
 
-![a3](https://user-images.githubusercontent.com/123365615/214565258-111480bd-0d48-44e5-b716-5f6d726e9c1e.PNG)
-
+![a3](https://user-images.githubusercontent.com/123365615/214611377-d77f5fb9-d027-4d36-a896-bc55314809ec.PNG)
 
 # Example 3:opt_check3.v
+
+vim opt_check3.v
+
+![a02](https://user-images.githubusercontent.com/123365615/214609125-790d24a7-931c-42b9-9407-0544ac923d65.PNG)
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 read_verilog opt_check3.v
 
 synth -top opt_check3
+
+opt_clean -purge
+
+![a31](https://user-images.githubusercontent.com/123365615/214612390-5a4e8fa4-8bbd-413c-9e8f-fe5c3b24b7f9.PNG)
 
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -252,6 +273,11 @@ show
 
 
 # Example 4: opt_check4.v
+
+vim opt_check4.v
+
+![a03](https://user-images.githubusercontent.com/123365615/214609606-671bd73b-16e9-46a9-8676-f9da3055ecac.PNG)
+
 
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
