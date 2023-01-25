@@ -92,6 +92,19 @@ The lib contains different flavors of this same as well as different types of ce
 
 ![c5](https://user-images.githubusercontent.com/123365615/214470914-b589af3b-85ee-4182-a344-ffc5f74053b3.PNG)
 
+As we see in the above window,
+
+The library also represents the different features of the cell like its leakage power,the various input's combinations and the operations between them.
+
+![C6](https://user-images.githubusercontent.com/123365615/214477178-26d9a54f-40cd-4dfa-ab3f-a84694e3722e.PNG)
+
+![C7](https://user-images.githubusercontent.com/123365615/214477409-7a126f53-84ae-4b33-b98c-a9fde7ef3b39.PNG)
+
+![C8](https://user-images.githubusercontent.com/123365615/214478703-e0499855-643e-46f0-a511-03005fbc64fb.PNG)
+
+HIERARCHIAL VS FLAT SYNTHESIS
+
+
 
 
 
