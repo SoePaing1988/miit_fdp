@@ -261,8 +261,6 @@ synth -top opt_check3
 
 opt_clean -purge
 
-![a31](https://user-images.githubusercontent.com/123365615/214612390-5a4e8fa4-8bbd-413c-9e8f-fe5c3b24b7f9.PNG)
-
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 write_verilog -noattr opt_check3_netlist.v 
