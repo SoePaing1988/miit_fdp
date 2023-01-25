@@ -139,6 +139,31 @@ show
 ![c14](https://user-images.githubusercontent.com/123365615/214485987-9eeadce9-f389-4ae2-b49e-79e9b2ae08b6.PNG)
 
 
+![c15](https://user-images.githubusercontent.com/123365615/214489124-ee75cd60-3435-4acf-8634-631ffbf1580d.PNG)
+
+GLITCHES
+
+Asynchoronous and Synchronous resets
+
+![c16](https://user-images.githubusercontent.com/123365615/214490495-78aa07a6-0804-4d94-bd80-a871ce710f0f.PNG)
+
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+!vim dff_asyncres.v -o dff_async_set.v 
+
+./a.out
+
+gtkwave tb_dff_asyncres.vcd
+
+![c17](https://user-images.githubusercontent.com/123365615/214492166-21a1245d-ed4d-44aa-85b2-1123a838ef60.PNG)
+
+![c18](https://user-images.githubusercontent.com/123365615/214492195-5b473fb1-0537-4f73-85b9-fbac4c20e179.PNG)
+
+
+OPTIMISATIONS
+
+
+
 
 
 
