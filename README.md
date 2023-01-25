@@ -1,7 +1,7 @@
 # miit_fdp
-Day 1 : Introduction to Verilog RTL design and Synthesis 
+# Day 1 : Introduction to Verilog RTL design and Synthesis 
 
-Labs using iverilog and gtkwave
+# Labs using iverilog and gtkwave
 
  mkdir vsd  
  cd vsd  
@@ -66,35 +66,34 @@ write_verilog -noattr good_mux_netlist.v
 
 ![pic 11](https://user-images.githubusercontent.com/123365615/214268277-f7e77afe-d4b8-464c-8867-cbacade01b1d.PNG)
 
-DAY2 : TIMING LIBS, HIERARCHICAL Vs FLAT SYNTHESIS AND EFFICIENT FLOP CODING STYLES
+# DAY2 : TIMING LIBS, HIERARCHICAL Vs FLAT SYNTHESIS AND EFFICIENT FLOP CODING STYLES
 
 gvim ../my_lib/lib/SKY130_fd_sc_hd__tt_025C_1v80.lib
 
 ![c1](https://user-images.githubusercontent.com/123365615/214469650-4432376c-9e3a-4f40-8df9-e02774e739b7.PNG)
 
-Switching off the syntax color red
+#  off the syntax color red
 
   Command used : syn off
   
-Enabling the line numbers
+# Enabling the line numbers
 
   Command used : se nu
   
-The voltage process and temperature conditions are also specified.
+# The voltage process and temperature conditions are also specified.
 
 ![c2](https://user-images.githubusercontent.com/123365615/214469704-904e2ed5-c157-47fc-b5dc-0265b810741b.PNG)
 
 ![c3](https://user-images.githubusercontent.com/123365615/214469737-5271f59a-2394-4cba-9579-f5fc043be768.PNG)
 
-The lib contains different flavors of this same as well as different types of cells.
+# The lib contains different flavors of this same as well as different types of cells.
 
 ![c4](https://user-images.githubusercontent.com/123365615/214470489-daab5614-5a75-4e03-8fb7-d2eef07613b5.PNG)
 
 ![c5](https://user-images.githubusercontent.com/123365615/214470914-b589af3b-85ee-4182-a344-ffc5f74053b3.PNG)
 
-As we see in the above window,
 
-The library also represents the different features of the cell like its leakage power,the various input's combinations and the operations between them.
+# The library also represents the different features of the cell like its leakage power,the various input's combinations and the operations between them.
 
 ![C6](https://user-images.githubusercontent.com/123365615/214477178-26d9a54f-40cd-4dfa-ab3f-a84694e3722e.PNG)
 
@@ -102,7 +101,7 @@ The library also represents the different features of the cell like its leakage 
 
 ![C8](https://user-images.githubusercontent.com/123365615/214478703-e0499855-643e-46f0-a511-03005fbc64fb.PNG)
 
-HIERARCHIAL VS FLAT SYNTHESIS
+# HIERARCHIAL VS FLAT SYNTHESIS
 
 vim multiple_modules.v
 
@@ -141,9 +140,9 @@ show
 
 ![c15](https://user-images.githubusercontent.com/123365615/214489124-ee75cd60-3435-4acf-8634-631ffbf1580d.PNG)
 
-GLITCHES
+# GLITCHES
 
-Asynchoronous and Synchronous resets
+# Asynchoronous and Synchronous resets
 
 ![c16](https://user-images.githubusercontent.com/123365615/214490495-78aa07a6-0804-4d94-bd80-a871ce710f0f.PNG)
 
@@ -159,36 +158,36 @@ gtkwave tb_dff_asyncres.vcd
 
 ![c18](https://user-images.githubusercontent.com/123365615/214492195-5b473fb1-0537-4f73-85b9-fbac4c20e179.PNG)
 
-Synthesis implementation results :
+# Synthesis implementation results :
 
-asynchoronous reset :
+# asynchoronous reset :
 
 ![image](https://user-images.githubusercontent.com/123365615/214512361-aca28e93-0901-4a53-8923-72d01c9c63f4.png)
 
-asynchoronous set :
+# asynchoronous set :
 
 ![image](https://user-images.githubusercontent.com/123365615/214512486-1eaf8094-db86-4215-aa98-5ba78692cb45.png)
 
-Synchronous Reset and set : 
+# Synchronous Reset and set : 
 
 ![C19](https://user-images.githubusercontent.com/123365615/214514170-8116a50d-af67-4c75-a2e6-2f8a61de10f7.PNG)
 
 
-Synthesis Results:
+# Synthesis Results:
 
 ![image](https://user-images.githubusercontent.com/123365615/214513823-68d5f342-cab2-4359-af3a-3105949d128a.png)
 
 
-RTL CODE:
+# RTL CODE:
 
 ![image](https://user-images.githubusercontent.com/123365615/214513880-21584d67-18dd-4fe7-9432-59570fa9964a.png)
 
 
-Synthesis Results:
+# Synthesis Results:
 
 ![image](https://user-images.githubusercontent.com/123365615/214513923-b23ae7a0-2305-4264-9802-ef76258ba4e5.png)
 
-OPTIMISATIONS
+# OPTIMISATIONS
 
 ![C20](https://user-images.githubusercontent.com/123365615/214514537-bfd5be37-c759-42c5-aaed-19ca24f8e568.PNG)
 
