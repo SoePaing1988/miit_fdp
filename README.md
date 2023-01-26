@@ -338,12 +338,13 @@ Divide and conquer approach
 Let's assume our RTL design is very very massive and we are giving it to a tool which is not doing a good job. Instead of giving one massive design to the tool, we give portions by portions to the tool so that it provides an optimised netlist and we can stitch all these net lists at at the top level.
 Hence we control the model that we are synthesizing using the keywords
 
-                  synth-top "sub-module's name"
+        synth-top "sub-module's name"
+
 In the following example, I am going to synthesize at sub_module 1 level although I have read the RTL file at higher module level multi_modules.v
 
-                        read_iverilog multiple_modules.v
+        read_iverilog multiple_modules.v
 
-                        synth -top sub_module1
+        synth -top sub_module1
 
 ![c15](https://user-images.githubusercontent.com/123365615/214489124-ee75cd60-3435-4acf-8634-631ffbf1580d.PNG)
 
