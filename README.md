@@ -474,6 +474,9 @@ vim ternary_operator_mux.v
 
 ![f1](https://user-images.githubusercontent.com/123365615/214810313-125798d0-fffc-4c81-9fae-e9e85f75ddb5.PNG)
 
+iverilog ../lib/verilog_model/primitives.v ../lib/verilog_model/sky130_fd_sc_hd.v ternary_operator_mux_net.v tb_ternary_operator_mux.v
+
+
 iverilog ternary_operator_mux.v tb_ternary_operator_mux.v
 
 ./a.out
