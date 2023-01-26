@@ -1,7 +1,21 @@
 # miit_fdp
 # Day 1 : Introduction to Verilog RTL design and Synthesis 
+#Introduction to open-source simulator iverilog
+
+RTL : Register-transfer level (RTL) is a representation at the abstraction level that expresses a synchronous digital circuit in terms of the flow of digital signals (data) between hardware registers along with the logical operations performed on those signals.Register-transfer-level abstraction is used in hardware description languages (HDLs) like Verilog and VHDL to create high-level representations of a circuit, from where we can derive lower-level representations. Simulator : It is a tool for checking whether our RTL design meets the required specifications or not. Icarus Verilog is a simulator used for simulation and synthesis of RTL designs written in verilog which is one of the many hardware description languages.
+Design : It is the code or set of verilog codes that has the intended functionality to meet the required specifications.
+Testbench : Testbench is a setup which is used to apply stimulus (test_vectors) to the design to check it's functionality.It tests whether the design provides the output that matches the specifications.The RTL Design gets instantiated in the testbench.
+
+![image](https://user-images.githubusercontent.com/123365615/214894163-9bbe8ed4-35af-40a5-b431-e2a49a9379bd.png)
+
+#Iverilog Based Design Flow :
+1. The iverilog simulator takes RTL design and Testbench as inputs.
+2. It produces a VCD file(Value change dump format) as output. Only changes in the input are dumped to changes in the output.
+3. We use Gtkwave to see these output changes graphically.
 
 # Labs using iverilog and gtkwave
+
+We install the opensource software Virtual box for ruuning the Linux Ubuntu without actually installing it. Then we can download any version of Linux comfortable to us. Once done,We start with the following steps for our environment seup in our virtual terminal.
 
  mkdir vsd  
  cd vsd  
@@ -18,6 +32,7 @@
  cd ..  
  cd verilog_files
  
+
  ![pic1](https://user-images.githubusercontent.com/123365615/214267684-e71c0ed4-e9ca-4c5c-a034-1d92c7c23d7b.PNG)
 
  ![pic 2](https://user-images.githubusercontent.com/123365615/214267577-b00347a0-7829-49c1-b9d9-7a3aca0166f2.PNG)
@@ -474,28 +489,22 @@ vim ternary_operator_mux.v
 
 ![f1](https://user-images.githubusercontent.com/123365615/214810313-125798d0-fffc-4c81-9fae-e9e85f75ddb5.PNG)
 
-iverilog ../lib/verilog_model/primitives.v ../lib/verilog_model/sky130_fd_sc_hd.v ternary_operator_mux_net.v tb_ternary_operator_mux.v
 
 
-iverilog ternary_operator_mux.v tb_ternary_operator_mux.v
+# Example 2: bad_mux.v
 
-./a.out
+vim bad_mux.v
 
-gtkwave tb_ternary_operator_mux.vcd
+![f3](https://user-images.githubusercontent.com/123365615/214887908-00428702-c357-4d64-8697-db08dc22859b.PNG)
 
-![f2](https://user-images.githubusercontent.com/123365615/214814123-4ad085f5-b652-4664-8a30-b2bb5aa2e225.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+# Example 3: blocking_caveat.v
 
-read_verilog ternary_operator_mux.v
+vim blocking_caveat.v
 
-synth -top ternary_operator_mux
+![f4](https://user-images.githubusercontent.com/123365615/214887961-7175fe34-905a-4c5e-bcf8-afb222bb5708.PNG)
 
-abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 
-write_verilog -noattr ternary_operator_mux.v
-
-show
 
 
 
