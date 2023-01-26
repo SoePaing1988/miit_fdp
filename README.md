@@ -466,6 +466,34 @@ show
 
 ![s12](https://user-images.githubusercontent.com/123365615/214644050-6c26ea6e-2fae-498b-8f6f-2912f5f702e9.PNG)
 
+# Day 4: Gate Level Simulations,Blocking vs Non Blocking assignments,Synthesis-Simulation Mismatch
+
+# Example 1: A mux designed with the help of ternary operator
+
+vim ternary_operator_mux.v
+
+![f1](https://user-images.githubusercontent.com/123365615/214810313-125798d0-fffc-4c81-9fae-e9e85f75ddb5.PNG)
+
+iverilog ternary_operator_mux.v tb_ternary_operator_mux.v
+
+./a.out
+
+gtkwave tb_ternary_operator_mux.vcd
+
+![f2](https://user-images.githubusercontent.com/123365615/214814123-4ad085f5-b652-4664-8a30-b2bb5aa2e225.PNG)
+
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+read_verilog ternary_operator_mux.v
+
+synth -top ternary_operator_mux
+
+abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+
+write_verilog -noattr ternary_operator_mux.v
+
+show
+
 
 
 
