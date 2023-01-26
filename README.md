@@ -17,20 +17,20 @@ Testbench : Testbench is a setup which is used to apply stimulus (test_vectors) 
 
 We install the opensource software Virtual box for ruuning the Linux Ubuntu without actually installing it. Then we can download any version of Linux comfortable to us. Once done,We start with the following steps for our environment seup in our virtual terminal.
 
-    mkdir vsd  
-    cd vsd  
-    git clone https://github.com/kunalg123/vsdflow.git  
-    mkdir vlsi  
-    cd vlsi  
-    git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git  
-    cd SKY130RTLDesignAndSynthesisWorkshop  
-    cd my_lib  
-    cd lib  
-    cd ..  
-    cd verilog_model  
-    cd ..  
-    cd ..  
-    cd verilog_files
+        mkdir vsd  
+        cd vsd  
+        git clone https://github.com/kunalg123/vsdflow.git  
+        mkdir vlsi  
+        cd vlsi  
+        git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git  
+        cd SKY130RTLDesignAndSynthesisWorkshop  
+        cd my_lib  
+        cd lib  
+        cd ..  
+        cd verilog_model  
+        cd ..  
+        cd ..  
+        cd verilog_files
  
 Below screenshot shows the above directory structure inside the vsd upto lib directories that was set up through the terminal.
 
@@ -44,17 +44,17 @@ Since the environment is now set up,we try to simulate a verilog code named good
 
  1. We simulate the RTL design and assosciated test bench .
  
-     iverilog good_mux.v tb_good_mux.v
+         iverilog good_mux.v tb_good_mux.v
 
 ![pic 3](https://user-images.githubusercontent.com/123365615/214267764-316bdd57-075f-4634-b25f-0b774102ea65.PNG)
 
  2. We dump the output into a vcd file.
 
-      ./a.out
+          ./a.out
 
  3. The following command invokes gtkwave window where in we can see all our outputs.
 
-      gtkwave tb_good_mux.vcd
+          gtkwave tb_good_mux.vcd
 
 ![pic 4](https://user-images.githubusercontent.com/123365615/214267848-6f917d3e-4cf7-4280-a218-d406e7cd3bfb.PNG)
 
@@ -64,7 +64,7 @@ In the gtkwave window we drag all the variables and zoom fit to see the transiti
 
  4. We can also view our Verilog RTL design and testbench code using
 
-      gvim tb_good_mux.v -o good_mux.v
+          gvim tb_good_mux.v -o good_mux.v
 
 ![pic 6](https://user-images.githubusercontent.com/123365615/214267970-0e58d783-ae22-47da-97e1-dd832577626d.PNG)
 
@@ -96,23 +96,23 @@ The waveform in the above figure should be same as observed in RTL simulation De
  
  For example the following code:
 
-    module sample_code(
-    
-    input clk, rst,
-    
-    output result, done);
+        module sample_code(
 
-    always@(posedge clk, posedge rst)
-    
-    if(rst)
-    
-    ...
-    
-    else
-    
-    ...
-    
-    endmodule
+        input clk, rst,
+
+        output result, done);
+
+        always@(posedge clk, posedge rst)
+
+        if(rst)
+
+        ...
+
+        else
+
+        ...
+
+        endmodule
     
     
 ![image](https://user-images.githubusercontent.com/123365615/214899112-784d52ca-19b2-4e0a-a70a-f6b06c870af8.png)
@@ -124,21 +124,23 @@ is coverted to the following digital circuit .
 
 Like,
 
-  2 - input AND gate
-  Versions:
-  - slow
-  - medium
-  - fast
- 3 - input AND gate
- Versions:
- - slow
- - medium
- - fast
- 4 - input AND gate
- Versions:
- - slow
- - medium
- - fastin
+      2 - input AND gate
+      Versions:
+      - slow
+      - medium
+      - fast
+
+     3 - input AND gate
+     Versions:
+     - slow
+     - medium
+     - fast
+
+     4 - input AND gate
+     Versions:
+     - slow
+     - medium
+     - fastin
 # But why do we need different flavours of gate? Consider the below circuit:
 
 ![image](https://user-images.githubusercontent.com/123365615/214899581-9c8bf3a9-3209-4400-a7e3-95b626737a74.png)
@@ -147,7 +149,7 @@ Like,
 It should take 1 CLK cycle for the signal to propagate from the Launch DFF-A to the Capture DFF-B through the combimational circuit.
 While this propagation all delays : Propagation delay of DFF A (Tcq-a)+ Propagation delay of combinational circuit(Tcomb)+Setup time of DFF-B(Tsetup_b). Thus ,the constraint becomes:
 
-Tclk>Tcq-a+Tcomb+Tsetup_b
+        Tclk>Tcq-a+Tcomb+Tsetup_b
 
 Setup time is the time for which data should arrive before the launch clock edge to be reflected at the output reliably.
 For high performance we need high speed gates.So, The frequency of a gates should be high or the Tclk should be less . So all the above mentioned delay should be less. We need cells that work fast to make the combinational small.
@@ -155,7 +157,7 @@ For high performance we need high speed gates.So, The frequency of a gates shoul
 # Hold up time Analysis
 After the after the edge of the clock I don't want data to change . So, the fastest change that can happen at the input of we would be after the hold time window so that I can reliably capture the previous clock edge of launch flop DFF-A to ensure there are no hold issues at DFF-B . Hence ,the constraint we have:
 
- Thold_b<Tcq-a+Tcomb
+         Thold_b<Tcq-a+Tcomb
  
 We need cells to work slowly to ensure that there are no hold time issues at Capture flop DFF-B.
 
@@ -184,17 +186,17 @@ Commands to obtain a synthesized implementation of good_mux design
 
 The commands to synthesise a rtl code called good_mux is as follows:
 
-yosys
+        yosys
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+        read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog good_mux.v
+        read_verilog good_mux.v
 
-synth -top good_mux
+        synth -top good_mux
 
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+        abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-show
+        show
 
 ![pic 7](https://user-images.githubusercontent.com/123365615/214268038-cdb72106-c621-4449-a791-247138b61229.PNG)
 
@@ -212,9 +214,9 @@ On execution of show command,a synthesized implementation of good_mux design is 
 
 # Commands to write a netlist
 
-write_verilog -noattr good_mux_netlist.v
+        write_verilog -noattr good_mux_netlist.v
 
-!gvim  good mux_netlist.v
+        !gvim  good mux_netlist.v
 
 Note: We use the switch -noattr i.e. no attributes for a more simplistic view of our netlist as shown below
 
@@ -224,7 +226,7 @@ Note: We use the switch -noattr i.e. no attributes for a more simplistic view of
 
 # DAY2 : TIMING LIBS, HIERARCHICAL Vs FLAT SYNTHESIS AND EFFICIENT FLOP CODING STYLES
 
-gvim ../my_lib/lib/SKY130_fd_sc_hd__tt_025C_1v80.lib
+        gvim ../my_lib/lib/SKY130_fd_sc_hd__tt_025C_1v80.lib
 
 ![c1](https://user-images.githubusercontent.com/123365615/214469650-4432376c-9e3a-4f40-8df9-e02774e739b7.PNG)
 
