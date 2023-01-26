@@ -17,20 +17,20 @@ Testbench : Testbench is a setup which is used to apply stimulus (test_vectors) 
 
 We install the opensource software Virtual box for ruuning the Linux Ubuntu without actually installing it. Then we can download any version of Linux comfortable to us. Once done,We start with the following steps for our environment seup in our virtual terminal.
 
- mkdir vsd  
- cd vsd  
- git clone https://github.com/kunalg123/vsdflow.git  
- mkdir vlsi  
- cd vlsi  
- git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git  
- cd SKY130RTLDesignAndSynthesisWorkshop  
- cd my_lib  
- cd lib  
- cd ..  
- cd verilog_model  
- cd ..  
- cd ..  
- cd verilog_files
+    mkdir vsd  
+    cd vsd  
+    git clone https://github.com/kunalg123/vsdflow.git  
+    mkdir vlsi  
+    cd vlsi  
+    git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git  
+    cd SKY130RTLDesignAndSynthesisWorkshop  
+    cd my_lib  
+    cd lib  
+    cd ..  
+    cd verilog_model  
+    cd ..  
+    cd ..  
+    cd verilog_files
  
 Below screenshot shows the above directory structure inside the vsd upto lib directories that was set up through the terminal.
 
@@ -44,17 +44,17 @@ Since the environment is now set up,we try to simulate a verilog code named good
 
  1. We simulate the RTL design and assosciated test bench .
  
- iverilog good_mux.v tb_good_mux.v
+     iverilog good_mux.v tb_good_mux.v
 
 ![pic 3](https://user-images.githubusercontent.com/123365615/214267764-316bdd57-075f-4634-b25f-0b774102ea65.PNG)
 
  2. We dump the output into a vcd file.
 
-./a.out
+      ./a.out
 
  3. The following command invokes gtkwave window where in we can see all our outputs.
 
-gtkwave tb_good_mux.vcd
+      gtkwave tb_good_mux.vcd
 
 ![pic 4](https://user-images.githubusercontent.com/123365615/214267848-6f917d3e-4cf7-4280-a218-d406e7cd3bfb.PNG)
 
@@ -64,7 +64,7 @@ In the gtkwave window we drag all the variables and zoom fit to see the transiti
 
  4. We can also view our Verilog RTL design and testbench code using
 
-gvim tb_good_mux.v -o good_mux.v
+      gvim tb_good_mux.v -o good_mux.v
 
 ![pic 6](https://user-images.githubusercontent.com/123365615/214267970-0e58d783-ae22-47da-97e1-dd832577626d.PNG)
 
@@ -93,17 +93,25 @@ The waveform in the above figure should be same as observed in RTL simulation De
  - A synthesizer performs gate level translation.
  - Design is converted into gates and connections are made between the gates.
  - The file what we write out finally is a gate-level netlist.
+ 
  For example the following code:
 
     module sample_code(
+    
     input clk, rst,
+    
     output result, done);
 
     always@(posedge clk, posedge rst)
+    
     if(rst)
+    
     ...
+    
     else
+    
     ...
+    
     endmodule
     
     ![image](https://user-images.githubusercontent.com/123365615/214899112-784d52ca-19b2-4e0a-a70a-f6b06c870af8.png)
