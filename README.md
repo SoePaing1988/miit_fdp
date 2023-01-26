@@ -226,95 +226,169 @@ Note: We use the switch -noattr i.e. no attributes for a more simplistic view of
 
 # DAY2 : TIMING LIBS, HIERARCHICAL Vs FLAT SYNTHESIS AND EFFICIENT FLOP CODING STYLES
 
+# INTRODUCTION TO TIMING .lib
+
+We take a walk through the library that is said to have a collection of all the standard cells along with their different flavors. We begin by understanding the name of the library. To look into the library,we use the gvim command
+
         gvim ../my_lib/lib/SKY130_fd_sc_hd__tt_025C_1v80.lib
+
+The following window appears that shows the library file SKY130_fd_sc_hd__tt_025C_1v80.lib
 
 ![c1](https://user-images.githubusercontent.com/123365615/214469650-4432376c-9e3a-4f40-8df9-e02774e739b7.PNG)
 
-#  off the syntax color red
+First line is the name of the library where TT stands for typical. For a design to work three parameters of the library are important :
 
-  Command used : syn off
-  
-# Enabling the line numbers
+ -  P- Process:Process is the variations due to fabrication
+ -  V -voltage: Variations in voltage also impact the behavior of the circuit.
+ -  T- temperature :Semiconductors are very sensitive to temperature variations too. All this variations determine the performance of a silicon whether it is fast or slow. Thus, our libraries are characterized to model this variations.
+Switching off the syntax color red
 
-  Command used : se nu
+        Command used : syn off
   
-# The voltage process and temperature conditions are also specified.
+Enabling the line numbers
+
+        Command used : se nu
+  
+We can see that the lib file contains the technology and units of all the parameters.
 
 ![c2](https://user-images.githubusercontent.com/123365615/214469704-904e2ed5-c157-47fc-b5dc-0265b810741b.PNG)
 
+The voltage process and temperature conditions are also specified.
+
 ![c3](https://user-images.githubusercontent.com/123365615/214469737-5271f59a-2394-4cba-9579-f5fc043be768.PNG)
 
-# The lib contains different flavors of this same as well as different types of cells.
+The lib contains different flavors of this same as well as different types of cells.
 
 ![c4](https://user-images.githubusercontent.com/123365615/214470489-daab5614-5a75-4e03-8fb7-d2eef07613b5.PNG)
 
 ![c5](https://user-images.githubusercontent.com/123365615/214470914-b589af3b-85ee-4182-a344-ffc5f74053b3.PNG)
 
+As we see in the above window,
+The library also represents the different features of the cell like its leakage power,the various input's combinations and the operations between them.
 
-# The library also represents the different features of the cell like its leakage power,the various input's combinations and the operations between them.
+The name a21110 signifies that it's And OR gate where in the first two inputs A1 and A2 are And'ed. It's result is OR'ed with the rest of the three inputs B1,C1 and D1. In order to understand the functionality of the cell we can also look into the equivalent verilog model. Each of the input can take a high or a low power level.For 5 inputs we have 32 combinations in total. The behaviour model specifies the delay and power for each of these inputs. Inside the cell block we have different power combinations and their respective leakage power values. It also shows the area. It gives the description of various pin in terms of their capacitance transition , internal power and the delay associated with this pins.
 
 ![C6](https://user-images.githubusercontent.com/123365615/214477178-26d9a54f-40cd-4dfa-ab3f-a84694e3722e.PNG)
 
+We pick a small gate small gate for better understanding. We see it's behaviour view.
+
 ![C7](https://user-images.githubusercontent.com/123365615/214477409-7a126f53-84ae-4b33-b98c-a9fde7ef3b39.PNG)
+
+We can see in the GVIM window above that there are two input for And gate, and thus four possible combinations the leakage power and the logic levels of which are specified. We now perform the comparison between the and gates.
 
 ![C8](https://user-images.githubusercontent.com/123365615/214478703-e0499855-643e-46f0-a511-03005fbc64fb.PNG)
 
+On comparison we see that the and gate "and2_4" has more area as compared to the and gate "and2_2" which in turn has more area with the and gate "and2_0". It is thus evident that and2_4 employs wider transistors. These are the different flavours of the same and gate. And and2_4 being the widest also has large leakage power values as well as large area. But it will have small delay values as it is faster .
+
 # HIERARCHIAL VS FLAT SYNTHESIS
 
-vim multiple_modules.v
+While syntheisizing the RTL design in which multiple modules are present, the synthesis can be done in two forms. We understand it through the following example:
+
+                vim multiple_modules.v
 
 ![c9](https://user-images.githubusercontent.com/123365615/214479914-b901e696-26eb-447e-8e93-44cff5c7422c.PNG)
 
-yosys
+                yosys
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog multiple_modules.v
+                read_verilog multiple_modules.v
 
-synth -top multiple_modules
+                synth -top multiple_modules
 
 ![c10](https://user-images.githubusercontent.com/123365615/214482340-20b879ab-d13f-4f9d-8d4f-32a8bd3484c9.PNG)
 
 ![c11](https://user-images.githubusercontent.com/123365615/214482371-a2b8f37c-9294-4693-88ca-bf2c548ee748.PNG)
 
-show multiple_modules
+The report has inferred submodule1 having one AND gate ,submodule2 to having one OR gate and multiple module having two cells . Now we link this design to the library using abc command. To show the graphical version ,we use the command.
+
+                show multiple_modules
 
 ![c12](https://user-images.githubusercontent.com/123365615/214482920-55f2dfaa-c060-4642-b608-3375f217ebbb.PNG)
 
-write_verilog multiple_modules.hier.v
+Instead of or and and gates it shows the instances u1 and u2 while preserving the hierarchy. This is called the hierarchical design.
 
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+Instead of or, and the circuit is implemented using nand and inverter gates. We always prefer stacked NMOS's(nand gates)to stacked the PMOS's(nor cascaded with inverter for or). Because pmos has a very poor mobility and therefore they have to be made quite wide to obtain a good logical effort .
+We use flatten to generate a flat netlist. Here there are no instances of U1 and U2 and hierarchy is not present.
 
-!vim multiple_modules.hier.v 
+                        write_verilog multiple_modules.hier.v
 
-flatten
-show
+                        abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+                        !vim multiple_modules.hier.v 
+
+                        flatten
+
+                        show
 
 ![c13](https://user-images.githubusercontent.com/123365615/214483629-bab5ae03-a318-4c14-a046-d617db135419.PNG)
 
+Even in the design view using show command we see that it simply displays the structure completely without any hierarchy.
 
 ![c14](https://user-images.githubusercontent.com/123365615/214485987-9eeadce9-f389-4ae2-b49e-79e9b2ae08b6.PNG)
 
+# SUB MODULE LEVEL SYNTHESIS AND ITS NECESSITY
+
+Need for Sub-module synthesis
+
+-       Module level synthesis is preferred when we have multiple instances of the same module.
+Let's assume a top module having multiple instances of the same unit gates(say, a multiplier) .Rather than synthesizing multiplier multiple times as mult1,mult2,mult3, It's better to synthesise it once and replicate it multiple Times.
+-       Divide and conquer approach
+Let's assume our RTL design is very very massive and we are giving it to a tool which is not doing a good job. Instead of giving one massive design to the tool, we give portions by portions to the tool so that it provides an optimised netlist and we can stitch all these net lists at at the top level.
+Hence we control the model that we are synthesizing using the keywords
+
+                  synth-top "sub-module's name"
+In the following example, I am going to synthesize at sub_module 1 level although I have read the RTL file at higher module level multi_modules.v
+
+                read_iverilog multiple_modules.v
+
+                synth -top sub_module1
 
 ![c15](https://user-images.githubusercontent.com/123365615/214489124-ee75cd60-3435-4acf-8634-631ffbf1580d.PNG)
 
+Notice ,In the synthesis report,it inferring only 1 AND gate.
+
 # GLITCHES
+
+Glitches are the unwanted or unexpected transactions that occur due to propagation delays in digital circuits. Glitches occur when an input signal changes state ,provided the signal takes two or more paths for circuit and both paths have unequal delays. The higher delay on one of the parts can cause a glitch when the single pass arrive at the output gate.
+
+![image](https://user-images.githubusercontent.com/123365615/214907383-4d56010c-b0a9-48f0-8995-622e0ce99921.png)
+
+![image](https://user-images.githubusercontent.com/123365615/214907437-8cced827-8c6e-48bd-bb6a-5be2c5d873f1.png)
+
+# Why Flops?
+
+More the combinational circuits more glitchy is the output .We therfore need an element to store the value of the output and that element is called FLOP(storage element).Flop provides resistance to glitches as they transition only at the clock edges .Even though the input of the flop is glitching ,the output will be stable. This avoids glitch propagation in further combinational circuits .
+Also,Initialising the flop is required else the combination circuit will evaluate it to a garbage value. To initialise the flop we have reset and set pins. These two pins can be either synchronous or asynchronous.
 
 # Asynchoronous and Synchronous resets
 
+Asynchronous reset: this reset signal does not wait for a clock .The moment asynchronous reset signal is received output queue becomes 0 irrespective of the clock.
+
+Asynchronous set: this set signal does not wait for a clock. The moment asynchronous reset is signal received output queue becomes 1 irrespective of the clock.
+Verilog codes of asynchronous reset and set :
+
 ![c16](https://user-images.githubusercontent.com/123365615/214490495-78aa07a6-0804-4d94-bd80-a871ce710f0f.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+# GTKWAVE RTL Simulation and Observations :
 
-!vim dff_asyncres.v -o dff_async_set.v 
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-./a.out
+                !vim dff_asyncres.v -o dff_async_set.v 
 
-gtkwave tb_dff_asyncres.vcd
+                ./a.out
+
+                gtkwave tb_dff_asyncres.vcd
 
 ![c17](https://user-images.githubusercontent.com/123365615/214492166-21a1245d-ed4d-44aa-85b2-1123a838ef60.PNG)
 
+        -       Q follows d only at the posedge of the clock.
+        -       But as and when async_rest=1,Q becomes 0 without waiting for the next edge of the clock.
+
 ![c18](https://user-images.githubusercontent.com/123365615/214492195-5b473fb1-0537-4f73-85b9-fbac4c20e179.PNG)
+
+        -       But when async_reset goes low(1 to 0),Q doesn't become 1 immediately ,it waits for the next clock edge to follow D.
+        -       Even if asunc_reset=1 and D=1, Q=0 as reset takes high precedence(that is how the code has been written,if condition of reset is checked first).
 
 # Synthesis implementation results :
 
@@ -327,19 +401,21 @@ gtkwave tb_dff_asyncres.vcd
 ![image](https://user-images.githubusercontent.com/123365615/214512486-1eaf8094-db86-4215-aa98-5ba78692cb45.png)
 
 # Synchronous Reset and set : 
+On application of set or reset signals,the signal does not immediately goes high or low,but it waits for the next edge of the clock cycle. RTL code of synchronous reset:
 
 ![C19](https://user-images.githubusercontent.com/123365615/214514170-8116a50d-af67-4c75-a2e6-2f8a61de10f7.PNG)
 
+Note: The loop is entered only at positive edge of the clock.Upon the posedge of the clock I look for the presence of synchronous reset. If present,Q goes low else D is reflected to output Q.
 
 # Synthesis Results:
 
 ![image](https://user-images.githubusercontent.com/123365615/214513823-68d5f342-cab2-4359-af3a-3105949d128a.png)
 
+Case wherein both both asynchronous and synchronous resets are applied together :
 
 # RTL CODE:
 
 ![image](https://user-images.githubusercontent.com/123365615/214513880-21584d67-18dd-4fe7-9432-59570fa9964a.png)
-
 
 # Synthesis Results:
 
@@ -347,11 +423,61 @@ gtkwave tb_dff_asyncres.vcd
 
 # OPTIMISATIONS
 
+We now observe some Interesting Optimisations For Special Cases :
+
+# Case 1:
+
+Let's Consider the following design where the 3 bit input is multiplied by 2 and the output is a 4 bit value.
+
+                module mul2 (input [2:0] a , output [3:0] y);
+                        assign y = a* 2;
+                endmodule
+
+Looking at it's truth table :
+
+        a[2:0]	y[3:0]
+        000	0000
+        001	0010
+        010	0100
+        011	0110
+        100	1000
+        101	1010
+        110	1100
+        111	1110
+Observation : The output y[3:0] is the input a[2:0] appended with a 0 at the LSB. or, we can say that y = aX2 = {a,0} .
+
+On synthesizing the netlist and look at its graphical realisation , we will see the same optimisation occuring in the netlist.There is no hardware required fot it.
+
 ![C20](https://user-images.githubusercontent.com/123365615/214514537-bfd5be37-c759-42c5-aaed-19ca24f8e568.PNG)
 
 ![image](https://user-images.githubusercontent.com/123365615/214514618-e804157a-58e5-45c3-9bba-f459f136847e.png)
 
+# Case 2:
+
+Let's consider the following design where the 3 bit input is multiplied by 9 and the output is a 6 bit value.
+
+                module mult8 (input [2:0] a , output [5:0] y);
+                        assign y = a* 9;
+                endmodule
+Looking at it's truth table :
+
+        a[2:0]	y[5:0]
+        000	000000
+        001	001001
+        010	010010
+        011	011011
+        100	100100
+        101	101101
+        110	110110
+        111	111111
+Observation : The output y[5:0] is equal to the input a[2:0] appended with itself i.e.
+
+y = aX9 = aX(8+1)= aX8+aX1 = {a,0}+a 
+y = {a,a}
+On synthesizing the netlist and look at it's graphical realisation , we will see the same optimisation occuring in the netlist.
+
 ![image](https://user-images.githubusercontent.com/123365615/214515256-1f9783c8-9215-4a03-b7d3-e675c239143d.png)
+
 
 # DAY 3 : Combinational and Sequential Optimisations
 
