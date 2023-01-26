@@ -331,9 +331,10 @@ Even in the design view using show command we see that it simply displays the st
 
 Need for Sub-module synthesis
 
--       Module level synthesis is preferred when we have multiple instances of the same module.
+Module level synthesis is preferred when we have multiple instances of the same module.
 Let's assume a top module having multiple instances of the same unit gates(say, a multiplier) .Rather than synthesizing multiplier multiple times as mult1,mult2,mult3, It's better to synthesise it once and replicate it multiple Times.
--       Divide and conquer approach
+
+Divide and conquer approach
 Let's assume our RTL design is very very massive and we are giving it to a tool which is not doing a good job. Instead of giving one massive design to the tool, we give portions by portions to the tool so that it provides an optimised netlist and we can stitch all these net lists at at the top level.
 Hence we control the model that we are synthesizing using the keywords
 
@@ -433,7 +434,7 @@ Let's Consider the following design where the 3 bit input is multiplied by 2 and
 
 Looking at it's truth table :
 
-       ![211](https://user-images.githubusercontent.com/123365615/214910757-11c1794d-4e74-4974-825f-b9501cc19f0e.png)
+![211](https://user-images.githubusercontent.com/123365615/214910757-11c1794d-4e74-4974-825f-b9501cc19f0e.png)
        
 Observation : The output y[3:0] is the input a[2:0] appended with a 0 at the LSB. or, we can say that y = aX2 = {a,0} .
 
@@ -452,7 +453,7 @@ Let's consider the following design where the 3 bit input is multiplied by 9 and
                 endmodule
 Looking at it's truth table :
 
-       ![212](https://user-images.githubusercontent.com/123365615/214910830-8a3ec2d7-4a94-42fd-a3a9-39f9676e330a.png)
+![212](https://user-images.githubusercontent.com/123365615/214910830-8a3ec2d7-4a94-42fd-a3a9-39f9676e330a.png)
        
 Observation : The output y[5:0] is equal to the input a[2:0] appended with itself i.e.
 
