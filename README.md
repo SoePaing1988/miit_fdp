@@ -340,9 +340,9 @@ Hence we control the model that we are synthesizing using the keywords
                   synth-top "sub-module's name"
 In the following example, I am going to synthesize at sub_module 1 level although I have read the RTL file at higher module level multi_modules.v
 
-                read_iverilog multiple_modules.v
+                        read_iverilog multiple_modules.v
 
-                synth -top sub_module1
+                        synth -top sub_module1
 
 ![c15](https://user-images.githubusercontent.com/123365615/214489124-ee75cd60-3435-4acf-8634-631ffbf1580d.PNG)
 
@@ -353,8 +353,6 @@ Notice ,In the synthesis report,it inferring only 1 AND gate.
 Glitches are the unwanted or unexpected transactions that occur due to propagation delays in digital circuits. Glitches occur when an input signal changes state ,provided the signal takes two or more paths for circuit and both paths have unequal delays. The higher delay on one of the parts can cause a glitch when the single pass arrive at the output gate.
 
 ![image](https://user-images.githubusercontent.com/123365615/214907383-4d56010c-b0a9-48f0-8995-622e0ce99921.png)
-
-![image](https://user-images.githubusercontent.com/123365615/214907437-8cced827-8c6e-48bd-bb6a-5be2c5d873f1.png)
 
 # Why Flops?
 
@@ -382,13 +380,13 @@ Verilog codes of asynchronous reset and set :
 
 ![c17](https://user-images.githubusercontent.com/123365615/214492166-21a1245d-ed4d-44aa-85b2-1123a838ef60.PNG)
 
-        -       Q follows d only at the posedge of the clock.
-        -       But as and when async_rest=1,Q becomes 0 without waiting for the next edge of the clock.
+        Q follows d only at the posedge of the clock.
+        But as and when async_rest=1,Q becomes 0 without waiting for the next edge of the clock.
 
 ![c18](https://user-images.githubusercontent.com/123365615/214492195-5b473fb1-0537-4f73-85b9-fbac4c20e179.PNG)
 
-        -       But when async_reset goes low(1 to 0),Q doesn't become 1 immediately ,it waits for the next clock edge to follow D.
-        -       Even if asunc_reset=1 and D=1, Q=0 as reset takes high precedence(that is how the code has been written,if condition of reset is checked first).
+        But when async_reset goes low(1 to 0),Q doesn't become 1 immediately ,it waits for the next clock edge to follow D.
+        Even if asunc_reset=1 and D=1, Q=0 as reset takes high precedence(that is how the code has been written,if condition of reset is checked first).
 
 # Synthesis implementation results :
 
@@ -435,15 +433,8 @@ Let's Consider the following design where the 3 bit input is multiplied by 2 and
 
 Looking at it's truth table :
 
-        a[2:0]	y[3:0]
-        000	0000
-        001	0010
-        010	0100
-        011	0110
-        100	1000
-        101	1010
-        110	1100
-        111	1110
+       ![211](https://user-images.githubusercontent.com/123365615/214910757-11c1794d-4e74-4974-825f-b9501cc19f0e.png)
+       
 Observation : The output y[3:0] is the input a[2:0] appended with a 0 at the LSB. or, we can say that y = aX2 = {a,0} .
 
 On synthesizing the netlist and look at its graphical realisation , we will see the same optimisation occuring in the netlist.There is no hardware required fot it.
@@ -461,15 +452,8 @@ Let's consider the following design where the 3 bit input is multiplied by 9 and
                 endmodule
 Looking at it's truth table :
 
-        a[2:0]	y[5:0]
-        000	000000
-        001	001001
-        010	010010
-        011	011011
-        100	100100
-        101	101101
-        110	110110
-        111	111111
+       ![212](https://user-images.githubusercontent.com/123365615/214910830-8a3ec2d7-4a94-42fd-a3a9-39f9676e330a.png)
+       
 Observation : The output y[5:0] is equal to the input a[2:0] appended with itself i.e.
 
 y = aX9 = aX(8+1)= aX8+aX1 = {a,0}+a 
