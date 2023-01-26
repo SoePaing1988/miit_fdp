@@ -114,7 +114,8 @@ The waveform in the above figure should be same as observed in RTL simulation De
     
     endmodule
     
-    ![image](https://user-images.githubusercontent.com/123365615/214899112-784d52ca-19b2-4e0a-a70a-f6b06c870af8.png)
+    
+![image](https://user-images.githubusercontent.com/123365615/214899112-784d52ca-19b2-4e0a-a70a-f6b06c870af8.png)
 
 is coverted to the following digital circuit .
 
