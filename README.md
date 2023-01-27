@@ -1,6 +1,7 @@
 # miit_fdp
+
 # Day 1 : Introduction to Verilog RTL design and Synthesis 
-# Introduction to open-source simulator iverilog
+## Introduction to open-source simulator iverilog
 
 RTL : Register-transfer level (RTL) is a representation at the abstraction level that expresses a synchronous digital circuit in terms of the flow of digital signals (data) between hardware registers along with the logical operations performed on those signals.Register-transfer-level abstraction is used in hardware description languages (HDLs) like Verilog and VHDL to create high-level representations of a circuit, from where we can derive lower-level representations. Simulator : It is a tool for checking whether our RTL design meets the required specifications or not. Icarus Verilog is a simulator used for simulation and synthesis of RTL designs written in verilog which is one of the many hardware description languages.
 Design : It is the code or set of verilog codes that has the intended functionality to meet the required specifications.
@@ -8,12 +9,12 @@ Testbench : Testbench is a setup which is used to apply stimulus (test_vectors) 
 
 ![image](https://user-images.githubusercontent.com/123365615/214894163-9bbe8ed4-35af-40a5-b431-e2a49a9379bd.png)
 
-# Iverilog Based Design Flow :
+### Iverilog Based Design Flow :
 1. The iverilog simulator takes RTL design and Testbench as inputs.
 2. It produces a VCD file(Value change dump format) as output. Only changes in the input are dumped to changes in the output.
 3. We use Gtkwave to see these output changes graphically.
 
-# Labs using iverilog and gtkwave
+### Labs using iverilog and gtkwave
 
 We install the opensource software Virtual box for ruuning the Linux Ubuntu without actually installing it. Then we can download any version of Linux comfortable to us. Once done,We start with the following steps for our environment seup in our virtual terminal.
 
@@ -70,7 +71,7 @@ In the gtkwave window we drag all the variables and zoom fit to see the transiti
 
 Add vcode and testbench
 
-# Introduction to Yosys and Logic synthesis
+## Introduction to Yosys and Logic synthesis
 Synthesizer :It is a tool used for the conversion of an RTL to a netlist.
 Netlist : It is a representation of the input design to yosys in terms of standard cells present in the library. Yosys is the Synthesizer tool that we will be using. Diiferent levels of abstraction and synthesis
 
@@ -88,7 +89,7 @@ Veifying Synthesis We verify our synthesis to check if any unwanted changes have
 The set of primary inputs/outputs will remain same between the RTL design and Synthesized netlist. Hence,same testbench can be used.Netlist and RTL are essentialy same. RTL is written in behavioural form whereas netlist is written in the form of standard cells.
 The waveform in the above figure should be same as observed in RTL simulation Design.
 
-# WHAT HAPPENS DURING SYNTHESIS? During Logic Synthesis an RTL code is transformed into a gate level netlist.
+### WHAT HAPPENS DURING SYNTHESIS? During Logic Synthesis an RTL code is transformed into a gate level netlist.
 
  - A synthesizer performs gate level translation.
  - Design is converted into gates and connections are made between the gates.
@@ -119,7 +120,7 @@ The waveform in the above figure should be same as observed in RTL simulation De
 
 is coverted to the following digital circuit .
 
-# Understanding .lib
+### Understanding .lib
 .lib is the collection of logic modules which includes basic logic gates such as AND, OR, NOT, etc. It also contains different flavours of the same gate.
 
 Like,
@@ -141,11 +142,11 @@ Like,
      - slow
      - medium
      - fastin
-# But why do we need different flavours of gate? Consider the below circuit:
+### But why do we need different flavours of gate? Consider the below circuit:
 
 ![image](https://user-images.githubusercontent.com/123365615/214899581-9c8bf3a9-3209-4400-a7e3-95b626737a74.png)
 
-# Setup time Analysis
+### Setup time Analysis
 It should take 1 CLK cycle for the signal to propagate from the Launch DFF-A to the Capture DFF-B through the combimational circuit.
 While this propagation all delays : Propagation delay of DFF A (Tcq-a)+ Propagation delay of combinational circuit(Tcomb)+Setup time of DFF-B(Tsetup_b). Thus ,the constraint becomes:
 
@@ -154,7 +155,7 @@ While this propagation all delays : Propagation delay of DFF A (Tcq-a)+ Propagat
 Setup time is the time for which data should arrive before the launch clock edge to be reflected at the output reliably.
 For high performance we need high speed gates.So, The frequency of a gates should be high or the Tclk should be less . So all the above mentioned delay should be less. We need cells that work fast to make the combinational small.
 
-# Hold up time Analysis
+### Hold up time Analysis
 After the after the edge of the clock I don't want data to change . So, the fastest change that can happen at the input of we would be after the hold time window so that I can reliably capture the previous clock edge of launch flop DFF-A to ensure there are no hold issues at DFF-B . Hence ,the constraint we have:
 
          Thold_b<Tcq-a+Tcomb
@@ -172,13 +173,13 @@ Propagation delay is the time required for the input to be reflected in the outp
 
 So fastercells don't come free. They come at the tradeoffs of area and power.
 
-# How do we select cells?
+### How do we select cells?
 
  - We need to guide the synthesizer to select the flavour of cells for optimum implementation of our logic circuits.
  - More use of faster cells results in bad circuit in terms of area and power and potentially may result in hold time violations.
  - More use of slower cells may result in a sluggist circuit and may not meet the performance. It is required for us to offer guidance to the synthesizer to pick correct set of cells .This guiding parameters to the synthesizer are called as CONSTRAINTS.
 
-# Labs using Yosys and Sky130 PDKs
+## Labs using Yosys and Sky130 PDKs
 
 Commands to obtain a synthesized implementation of good_mux design
 
@@ -212,7 +213,7 @@ On execution of show command,a synthesized implementation of good_mux design is 
 
 ![pic 10](https://user-images.githubusercontent.com/123365615/214268357-011b448c-11cb-4a30-88ea-01e791dec386.PNG)
 
-# Commands to write a netlist
+### Commands to write a netlist
 
         write_verilog -noattr good_mux_netlist.v
 
@@ -224,9 +225,9 @@ Note: We use the switch -noattr i.e. no attributes for a more simplistic view of
 
 
 
-# DAY2 : TIMING LIBS, HIERARCHICAL Vs FLAT SYNTHESIS AND EFFICIENT FLOP CODING STYLES
+## DAY2 : TIMING LIBS, HIERARCHICAL Vs FLAT SYNTHESIS AND EFFICIENT FLOP CODING STYLES
 
-# INTRODUCTION TO TIMING .lib
+### INTRODUCTION TO TIMING .lib
 
 We take a walk through the library that is said to have a collection of all the standard cells along with their different flavors. We begin by understanding the name of the library. To look into the library,we use the gvim command
 
@@ -280,7 +281,7 @@ We can see in the GVIM window above that there are two input for And gate, and t
 
 On comparison we see that the and gate "and2_4" has more area as compared to the and gate "and2_2" which in turn has more area with the and gate "and2_0". It is thus evident that and2_4 employs wider transistors. These are the different flavours of the same and gate. And and2_4 being the widest also has large leakage power values as well as large area. But it will have small delay values as it is faster .
 
-# HIERARCHIAL VS FLAT SYNTHESIS
+### HIERARCHIAL VS FLAT SYNTHESIS
 
 While syntheisizing the RTL design in which multiple modules are present, the synthesis can be done in two forms. We understand it through the following example:
 
@@ -327,7 +328,7 @@ Even in the design view using show command we see that it simply displays the st
 
 ![c14](https://user-images.githubusercontent.com/123365615/214485987-9eeadce9-f389-4ae2-b49e-79e9b2ae08b6.PNG)
 
-# SUB MODULE LEVEL SYNTHESIS AND ITS NECESSITY
+### SUB MODULE LEVEL SYNTHESIS AND ITS NECESSITY
 
 Need for Sub-module synthesis
 
@@ -350,18 +351,18 @@ In the following example, I am going to synthesize at sub_module 1 level althoug
 
 Notice ,In the synthesis report,it inferring only 1 AND gate.
 
-# GLITCHES
+### GLITCHES
 
 Glitches are the unwanted or unexpected transactions that occur due to propagation delays in digital circuits. Glitches occur when an input signal changes state ,provided the signal takes two or more paths for circuit and both paths have unequal delays. The higher delay on one of the parts can cause a glitch when the single pass arrive at the output gate.
 
 ![image](https://user-images.githubusercontent.com/123365615/214907383-4d56010c-b0a9-48f0-8995-622e0ce99921.png)
 
-# Why Flops?
+### Why Flops?
 
 More the combinational circuits more glitchy is the output .We therfore need an element to store the value of the output and that element is called FLOP(storage element).Flop provides resistance to glitches as they transition only at the clock edges .Even though the input of the flop is glitching ,the output will be stable. This avoids glitch propagation in further combinational circuits .
 Also,Initialising the flop is required else the combination circuit will evaluate it to a garbage value. To initialise the flop we have reset and set pins. These two pins can be either synchronous or asynchronous.
 
-# Asynchoronous and Synchronous resets
+### Asynchoronous and Synchronous resets
 
 Asynchronous reset: this reset signal does not wait for a clock .The moment asynchronous reset signal is received output queue becomes 0 irrespective of the clock.
 
@@ -370,7 +371,7 @@ Verilog codes of asynchronous reset and set :
 
 ![c16](https://user-images.githubusercontent.com/123365615/214490495-78aa07a6-0804-4d94-bd80-a871ce710f0f.PNG)
 
-# GTKWAVE RTL Simulation and Observations :
+### GTKWAVE RTL Simulation and Observations :
 
                 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
@@ -390,42 +391,42 @@ Verilog codes of asynchronous reset and set :
         But when async_reset goes low(1 to 0),Q doesn't become 1 immediately ,it waits for the next clock edge to follow D.
         Even if asunc_reset=1 and D=1, Q=0 as reset takes high precedence(that is how the code has been written,if condition of reset is checked first).
 
-# Synthesis implementation results :
+### Synthesis implementation results :
 
-# asynchoronous reset :
+### asynchoronous reset :
 
 ![image](https://user-images.githubusercontent.com/123365615/214512361-aca28e93-0901-4a53-8923-72d01c9c63f4.png)
 
-# asynchoronous set :
+### asynchoronous set :
 
 ![image](https://user-images.githubusercontent.com/123365615/214512486-1eaf8094-db86-4215-aa98-5ba78692cb45.png)
 
-# Synchronous Reset and set : 
+### Synchronous Reset and set : 
 On application of set or reset signals,the signal does not immediately goes high or low,but it waits for the next edge of the clock cycle. RTL code of synchronous reset:
 
 ![C19](https://user-images.githubusercontent.com/123365615/214514170-8116a50d-af67-4c75-a2e6-2f8a61de10f7.PNG)
 
 Note: The loop is entered only at positive edge of the clock.Upon the posedge of the clock I look for the presence of synchronous reset. If present,Q goes low else D is reflected to output Q.
 
-# Synthesis Results:
+### Synthesis Results:
 
 ![image](https://user-images.githubusercontent.com/123365615/214513823-68d5f342-cab2-4359-af3a-3105949d128a.png)
 
 Case wherein both both asynchronous and synchronous resets are applied together :
 
-# RTL CODE:
+### RTL CODE:
 
 ![image](https://user-images.githubusercontent.com/123365615/214513880-21584d67-18dd-4fe7-9432-59570fa9964a.png)
 
-# Synthesis Results:
+### Synthesis Results:
 
 ![image](https://user-images.githubusercontent.com/123365615/214513923-b23ae7a0-2305-4264-9802-ef76258ba4e5.png)
 
-# OPTIMISATIONS
+## OPTIMISATIONS
 
 We now observe some Interesting Optimisations For Special Cases :
 
-# Case 1:
+### Case 1:
 
 Let's Consider the following design where the 3 bit input is multiplied by 2 and the output is a 4 bit value.
 
@@ -445,7 +446,7 @@ On synthesizing the netlist and look at its graphical realisation , we will see 
 
 ![image](https://user-images.githubusercontent.com/123365615/214514618-e804157a-58e5-45c3-9bba-f459f136847e.png)
 
-# Case 2:
+### Case 2:
 
 Let's consider the following design where the 3 bit input is multiplied by 9 and the output is a 6 bit value.
 
@@ -467,7 +468,7 @@ On synthesizing the netlist and look at it's graphical realisation , we will see
 
 # DAY 3 : Combinational and Sequential Optimisations
 
-# Introduction to Logic optimisations
+## Introduction to Logic optimisations
 
 Inorder to produce a digital circuit design which is optimised interms of area and power, the simulator performs many types of optimisations on the combinational and sequential circuits.
 
@@ -489,12 +490,12 @@ Inorder to produce a digital circuit design which is optimised interms of area a
                         Retiming
                         Sequential Logic Cloning (Floor Plan Aware Synthesis)
                         
-# Combinational Logic Optimisations
+## Combinational Logic Optimisations
 
 We will try to understand each of the above mentioned combinational optimisations through different RTL code examples. For each example, We also check the synthesis implementation through yosys to understand how the optimisations take place.
 All the optimisation examples are in files opt_check.v, opt_check4.v, and multiple_modules_opt.v. All of these files are present under the verilog_files directory.
 
-# Example 1:
+### Example 1:
 
                 vim opt_check.v
 
@@ -530,7 +531,7 @@ On viewing the graphical synthesis realisation , we can see the Yosys has synthe
 
 ![a2](https://user-images.githubusercontent.com/123365615/214564585-9bf2d5b2-ea87-4298-b1fd-bd042c96e0b9.PNG)
 
-# Example 2: opt_check2.v
+### Example 2: opt_check2.v
 
                 vim opt_check2.v
 
@@ -558,7 +559,7 @@ After simplification,we expect the output y to be an OR gate, since the output o
 
 Note: The synthesis tool instead of OR gates infers a nand gate with inverted inputs based on Demorgan's Law. It is done to avoid stacked PMOS in CMOS implemantation of OR gate.
 
-# Example 3:opt_check3.v
+### Example 3:opt_check3.v
 
                 vim opt_check3.v
 
@@ -586,7 +587,7 @@ Next we generate the netlist and observe its graphical representation after synt
 Yosys synthesizes a 3 input AND gate as expected because of optimisations.
 
 
-# Example 4: opt_check4.v
+### Example 4: opt_check4.v
 
                 vim opt_check4.v
 
@@ -614,7 +615,7 @@ In this case,the boolean logic optimisation simplifies the output to a single xn
 
 Yosys synthesizes a 3 input XNOR gate as expected because of optimisations.
 
-# Example 5: multiple_module_opt.v
+### Example 5: multiple_module_opt.v
 
                 vim multiple_module_opt.v
 
@@ -642,7 +643,7 @@ While synthesizing this in yosys we use flatten before opt_clean -purge. The mul
 
 ![a8](https://user-images.githubusercontent.com/123365615/214621734-42f4972e-7973-4e9b-9758-0c03ba0fac98.PNG)
 
-# Example 6: multiple_module_opt2.v
+### Example 6: multiple_module_opt2.v
 
                 vim multiple_module_opt2.v
 
@@ -669,12 +670,12 @@ On boolean optimisation, we obtain y=1 simply. It's synthesis yields:
 ![a9](https://user-images.githubusercontent.com/123365615/214624095-99f4d7e2-69c4-4a00-bfbf-d96a6f108d71.PNG)
 
 
-# Sequential Logic Optimisations
+## Sequential Logic Optimisations
 
 We will try to understand each of the sequential optimisations through different RTL code examples. For each example, We also check the synthesis implementation through yosys to understand how the optimisations take place.
 All the optimisation examples are in files dff_const2.v,dff_const3.v,dffconst4.v and dff_const5.v. All of these files are under the verilog_files directory.
 
-# Example 1: dff_const1.v
+### Example 1: dff_const1.v
 
                 vim dff_const1.v
 
@@ -724,7 +725,7 @@ We then generate the netlist
 
 As expected, No optimisation is performed in th yosys implementation during synthesis.
 
-# Example 2: dff_const2.v
+### Example 2: dff_const2.v
 
                 vim dff_const2.v
 
@@ -759,7 +760,7 @@ Since the output is always constant ie Q=1, it can easily be optimised during sy
 
 ![s7](https://user-images.githubusercontent.com/123365615/214638439-e8913f4c-e388-47a2-a417-29dc11a71b9c.PNG)
 
-# Example 3: dff_const3.v
+### Example 3: dff_const3.v
 
                 vim dff_const3.v
 
@@ -797,11 +798,11 @@ Hence, both the flip-flops are retained and no optimisations are performed on th
 
 Both the D flip-flops are present in the synthesized netlist.
 
-# Example 4: dff_const4.v
+### Example 4: dff_const4.v
 
                 vim dff_const4.v
 
-# RTL Code:
+### RTL Code:
 
 ![s4](https://user-images.githubusercontent.com/123365615/214628960-adb1600f-3ae4-431a-ac71-22f14e4a964f.PNG)
 
@@ -837,7 +838,7 @@ Unused output optimisations
 
 # Day 4: Gate Level Simulations,Blocking vs Non Blocking assignments,Synthesis-Simulation Mismatch
 
-# Introduction to Gate Level Simulations
+## Introduction to Gate Level Simulations
 
 We validate our RTL design by providing stimulus to the testbench and check whether it meets our specifications earlier we were running the test bench with the RTL code as our design under test .
 But now under GLS ,we apply netlist to the testbench as desh under test . What We did at the behavioral level in the RTL code got transformed to the net list in terms of the standard cells present in the library. So,net list is logically same as the RTL code. They both have the same inputs and outputs so the netlist should seamlessly fit in the place of the RTL code. We put the netlist in place of the RTL file and run the simulation with the test bench.
@@ -850,7 +851,7 @@ In GLS using iverilog flow, the design is a netlist which is given to Iverilog s
 Question : If netlist is the true representation of my RTL code then what is the need of functional validation of my net list?
 Answer: Because they can be simulation and synthesis mismatches.
 
-# Synthesis Simulation Mismatches
+### Synthesis Simulation Mismatches
 
         - Missing sensitivity list
         - Blocking and non blocking statements
@@ -858,7 +859,7 @@ Missing sensitivity list
 
 Simulator functions on the basis of activity that is it looks for if either of the inputs change. If there is no change in the inputs the simulator won't evaluate the output at all.
 
-Example:
+##### Example:
 
         module mux(input i0, input i1, input sel, output reg y);
 
@@ -882,7 +883,7 @@ Blocking and non blocking statements Inside always block
         -       Blocking Executes the statements in the order it is written So the first statement is evaluated before the second statement
         -       Non Blocking Executes all the RHS when always block is entered and assigns to LHS. Parallel evaluation
 
-Example of Blocking assignments:
+##### Example of Blocking assignments:
 
                 module shift_register(input clk, input reset, input d, output reg q1);
                 reg q0;
@@ -904,7 +905,7 @@ Example of Blocking assignments:
 
 In this case, D is assigned to Qo not which is then assigned to Q. Due to optimisation a single latch is formed where Q is equal to D.
 
-Example of Non-Blocking assignments:
+##### Example of Non-Blocking assignments:
 
 In the above RTL code if
 
@@ -934,7 +935,7 @@ Therefore ,while using blocking statements in this case,we should evaluate Q0 fi
 
 Labs on GLS and Synthesis-Simulation Mismatch
 
-# Example 1: A mux designed with the help of ternary operator
+### Example 1: A mux designed with the help of ternary operator
 
         vim ternary_operator_mux.v
 
@@ -972,7 +973,7 @@ To see the waveform of RTL simulation,we execute the following commands further
 
 The generated netlist does behave like a 2X1 multiplexer.
 
-# Example 2: bad_mux.v
+### Example 2: bad_mux.v
 
         vim bad_mux.v
 
@@ -1019,7 +1020,7 @@ If we now implement it's GATE level netlist through GLS and observe the waveform
 
 Since,the waveforms of stimulated RTL Code : Is of a LATCH the waveforms of gate level netlist thruogh GLS after synthesis: Is of 2X1 MUX We see a Synthesis-Simulation Mismatch.
 
-# Example 3: This is an example of synthesis-simulation mismatch due to wrong order of assignment in blocking assignments.
+### Example 3: This is an example of synthesis-simulation mismatch due to wrong order of assignment in blocking assignments.
 
         vim blocking_caveat.v
 
