@@ -942,6 +942,9 @@ Labs on GLS and Synthesis-Simulation Mismatch
 
 The synthesized netlist for the above,using yosys
 
+abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+
 To invoke GLS,
 
 We need to read our netlist file and the test bench file assosciated with it.
