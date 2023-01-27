@@ -231,7 +231,7 @@ Note: We use the switch -noattr i.e. no attributes for a more simplistic view of
 
 We take a walk through the library that is said to have a collection of all the standard cells along with their different flavors. We begin by understanding the name of the library. To look into the library,we use the gvim command
 
-        gvim ../my_lib/lib/SKY130_fd_sc_hd__tt_025C_1v80.lib
+        gvim ../lib/SKY130_fd_sc_hd__tt_025C_1v80.lib
 
 The following window appears that shows the library file SKY130_fd_sc_hd__tt_025C_1v80.lib
 
