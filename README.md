@@ -1396,10 +1396,165 @@ As expected, Only 1 D latch is inferred for X. No latch is inferred for y.
 
 ![ps13](https://user-images.githubusercontent.com/123365615/215063587-382774ba-8df5-4cdb-8ca8-6848f1cc8c1b.PNG)
 
+	iverilog bad_case.v tb_bad_case.v
+
+	./a.out
+
+	gtkwave tb_bad_case.vcd
+
+
 In gtkwaveform of RTL simulation:
+
+![ps14](https://user-images.githubusercontent.com/123365615/215075906-d914f761-9362-4548-a970-593190965d7c.PNG)
+
 Observation : When sel[1:0]=11, the output neither follows i2 nor i3. It simply latches to 1.
 
 Whereas while running GLS on the netlist,the waveform of the synthesized netlist behaves as 4X1 mux as shown below
+
+![ps15](https://user-images.githubusercontent.com/123365615/215076218-2f0a567b-d85c-477a-86d1-6aad361e1abc.PNG)
+
+Thus ,Overlapping cases confuse the simulator and leads to Synthesis-Simulation Mismatches.
+
+## Introduction to Looping Constructs
+
+There are two types of FOR loops in verilog.
+
+1.	FOR loop 1.Used within the always block 2.Used to evaluate expressions
+
+2.	Generate FOR loop 1.Only used outside the always block 2.Used for instantiating hardware
+
+Necessity of FOR loops
+
+For loops are extremely useful when we want to write a code /design that involves multiple assignments or evaluations within the always block. Lets us take an example: If we want to write the code for 4:1 multiplexer, we can easily do so using a either four if blocks or using a case block with 4 cases,as seen in the previous if-else blocks.But this approach is not suitable for complicated design with numerous inputs/outputs say 256X1 mux.If we wanted to design a 256X1 multiplexer, we will have to write 256 lines of condition statements using select and corresponding assignments. But in for loop ,be it 4X1 or 256X1 we would always be writing 4 lines of code only. Although we need to provide 256 inputs using an internal bus.
+
+	integer k;
+	always @(*)
+	begin
+		for (k = 0, k < 256, k= i  +1)
+		begin
+			if (k== sel)
+				y = in[i];
+			end
+		end
+	end
+
+This code can be infinitely scaled up by just replacing the condition i < 256 with the desired specification for our multiplexer.
+
+Similarly, we can create High input demultiplexers as well.
+
+	integer k
+	always @(*)
+	begin
+		int_bus[15:0] = 16b'0;
+		for (k= 0; k< 16; k= k+ 1) 
+		begin
+			if (k == sel)
+				int_bus[k] = inp[k];
+			end
+		end
+	end
+
+Here , we have created a 16:1 demultiplexer using for loops within the always block. The int_bus[15:0] specifies our internal bus which takes on the input of the demux. It is necessary to assign all outputs to low for a new value of sel else latches will be inferred resulting in the incorrect implementation of our logic.
+
+Below are few of the examples of FOR construct .
+
+### Example 1:
+
+file mux_generate.v that generates a 4X1 mux using For loop.
+
+	vim mux_generate.v
+
+![ps16](https://user-images.githubusercontent.com/123365615/215077203-3a628841-acf3-465a-8330-9c2dde0b0a0c.PNG)
+
+The 4 inputs get assigned to a the internal 4 bit bus named i_int.
+
+	iverilog mux_generate.v tb_mux_generate.v
+
+	./a.out
+
+	gtkwave tb_mux_generate.vcd
+
+The gtkwave obtained after the simulation
+
+![ps17](https://user-images.githubusercontent.com/123365615/215078078-f7e33dca-a368-4a8a-b3f2-d6a86f7443dd.PNG)
+
+
+### Example 2:
+
+	vim demux_generate.v
+
+Similar to example 1, file demux_generate.v that generates a 4X1 demux using For loop.
+
+![ps18](https://user-images.githubusercontent.com/123365615/215078338-7b7214e0-0aac-457e-840e-998477e653da.PNG)
+
+The above code has good readabilty,scalability and easy to write as well. Let's verify if it functions as a 8X1 demux as expected by viewing its gtkwave simulated waveform.
+
+	iverilog demux_generate.v tb_demux_generate.v
+
+	./a.out
+
+	gtkwave tb_demux_generate.vcd
+
+![ps19](https://user-images.githubusercontent.com/123365615/215080523-6cf1273f-4b5d-42ac-81f6-8c3d20a830aa.PNG)
+
+### FOR Generate and its Uses
+
+FOR Generate is used when we needto create multiple instances of the same hardware. We must use the For generate outside the always block.
+
+We take example of a 8 bit Ripple Carry Adder(RCA) to understand the ease of instantiations provided by the For generate statement. An RCA consists of Full Adders tied in series where the carry out of the previous full adder is fed as the carry in bit of the next full adder in the chain. Hence, we can make use of generate for to instantiate every full adder in the design , as they are all represent the same hardware.
+
+For this example , we use the file rcs.v which holds the code for the ripple carry adder. It also needs to be included in our simulation.
+
+	module rca (input [7:0] num1 , input  [7:0] num2 , output [8:0] sum);
+	wire [7:0] int_sum;
+	wire [7:0] int_co;
+
+	genvar i;
+	generate
+		for (i = 1; i < 8; i=i+1) begin
+			fa u_fa_1 (.a(num1[i]),.b(num2[i],.c(int_co[i-1],.co(int_co[i]),.sum(int_sum[i]));
+		end
+
+	endgenerate
+	fa u_fa_0 (.a(num1[0]),.b(num2[0]),.c(1'b0),.co(int_co[0]),.sum(int_sum[0]));
+
+	assign sum[7:0] = int_sum;
+	assign sum[8] = int_co[7];
+	endmodule
+
+Here, fa references another verilog design file containing the definition of for the full adder submodules .This is shown below, from the fa.v file
+
+	module fa(input a, input b , input c,  output co, output sum);
+		assign  {co,sum} = a +b + c;
+	endmodule
+
+In the RCA verilog code, we instantiate fa in a loop using generate for outside the always block.
+
+Rules for addition :
+
+N + N bit number --> Sum will be N + 1 bits N +M bit number --> Sum will be max(N,M) +1 bits
+
+Now, let us simulate this design in verilog and view its waveform with GKTWave .As the rca design referances the file fa.v , we must specify it in our commands as follows
+
+	iverilog fa.v rca.v tb_rca.v
+	./a.out
+	gtkwave tb_rca.v
+
+the resulting gtkwaveform is shown below that shows an adder being simulated:
+
+![ps21](https://user-images.githubusercontent.com/123365615/215082717-708e272a-f669-41d3-95e7-64c6adcddb05.PNG)
+
+Takeaways from this workshop:
+
+-	We succesfully learnt How to write the verilog codes using for,generate,if-else,case ,blocking/non blocking assignments so that our intended functionality is met.
+-	We learnt to genertaed the gtk waveform ans see the simulated wave results. We learnt to read timing diagrams as well.
+-	We learnt to synthesize the rtl verilog design using yosys and understand how the synthesizer implements the logic considering area and delay optimisations
+-	We learnt to verify the simulation -synthesis results by feeding netlist+testbench+Gate verilog models to the iverilog,during GLS(gate level synthesis simulation).
+-	We learnt good coding practices and ways to write optimised verilog codes.
+
+## Acknowledgment:
+Kunal Ghosh - Co-founder(Vsd corp. pvt.ltd.)
+
 
 
 
