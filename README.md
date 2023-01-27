@@ -947,7 +947,7 @@ To invoke GLS,
 We need to read our netlist file and the test bench file assosciated with it.
 We need to read 2 extra files that contain the description of verilog models in the netlist.
 
-        iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v ternary_operator_mux_net.v tb_ternary_operator_mux.v
+        iverilog ../lib/verilog_model/primitives.v ../lib/verilog_model/sky130_fd_sc_hd.v ternary_operator_mux_net.v tb_ternary_operator_mux.v
 
 To see the waveform of RTL simulation,we execute the following commands further
 
