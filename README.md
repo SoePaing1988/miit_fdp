@@ -1068,6 +1068,340 @@ If we run gate level simulations on this netlist in verilog, we observe the foll
 
 Here , we observe that the circuit behaves as intended combinational ckt. Output d results from the present value of inputs, and not the previous clock values like in the simulation results. Since the waveforms of the stimulated RTL verilog code do not match with the gate level simulation of generated netlist,we get a Synthesis-Simulation Mismatch again.
 
+# Day 5 - If, Case, For Loop and For Generate
+
+## If Constructs
+
+If condition is used to to write priority logic. The condition one has a priority or if has more priority than the consecutive else statements . Only when condition 1 is not met condition 2 is evaluated and so on and y is assigned accordingly depending on the matching conditions.
+
+	if (cond_1)
+	begin 	
+		y = statement_1;
+	end
+	else if (cond_2)
+	begin
+		y = statement_2;
+	end
+	else if (cond_3)
+	begin
+		y = statement_3;
+	end
+	else
+	begin
+		y = statement_4;
+	end
+
+If-else block implements a Priority logic that is if cond_1 is satisfied, next if statements are not executed. Thus above If-Else code translates to a ladder like multiplexer structure in the final design instead of a single multiplexer.
+
+Dangers of using Incomplete If statements Inferred Logic which occurs due to bad coding styles that is incomplete if statements.
+
+	if (condt1) 
+	    y-a;
+	else if (condt2)
+	    y=b;
+    
+In the above code if condition 1 is matched y is equal to a else if condition 2 is matched y is equal to b but there is no specification for the case when condition2 is not matched, as a result of which the simulator tries to latch this case to the output y.It wants to retain the value of y.
+This is a combinational loop to avoid that the simulator infers a latch. Enable of this latch is OR of the condition 1 and condition 2. If neither condition 1 or condition 2 is met the OR gate output disables the latch . The latch retains the value of y and stores it.
+This is called the inferred latch due to incomplete if statements which is very dangerous for RTL designing. It should be avoided except for some special cases like the counter.
+
+	reg[2:0]
+	always @(posedge clk,posedge reset)
+	Begin
+	If (reset)
+	Count<= 3'b000;
+	else if(enable)
+	Count<= count+1;
+	end
+
+This is also a case of incomplete if statements. Here ,if there is no enable the counter should latch onto the previous value.For example if the counter has counted up till 4 and there is no enable then it should retain the value 4 rather than going to 0 again.
+So here the incomplete if statements result in latching And retaining the previous value which is our desired behavior in a counter. The earlier mux example was a combinational circuit and therefore we cannot have inferred latches.
+
+#### Note:
+
+If, case statements are used inside always block.
+In verilog whatever variable we use to assign in if or case statements must be a register variable.
+
+#### CASE Constructs
+
+Let's look at the following verilog code block. Here, the inferred hardware should be a 4:1 multiplexer. The CASE statements do not have priority logic like IF statements.
+
+	always @(*)
+	begin
+	     case(sel)
+			2'b00: begin
+				y = statement_1;
+				end
+			2'b01: begin
+				y = statement_2;
+				end
+			2'b10: begin
+				y = statement_3;
+				end
+			2'b11: begin
+				y = statement_4;
+				end
+		endcase
+	end
+
+Depending on the cases matching the select y is assigned accordingly.
+
+Some caveats with using CASE statements:
+
+1.Incomplete CASE
+
+Let's say I have a two bit variable select.
+
+	reg [1:0] sel
+	always @(*)
+	begin
+	     case(sel)
+	     2'b00: begin
+			   . condition 1
+			   end
+	     2'b01: begin
+			   . condition 2
+			   end
+	    end case
+	    end
+    
+Then select is C1 or C3 the conditions are not specified. It causes an incomplete case which results in inferred latches for these two cases that latch on to output y.This occurs when some cases are not specified inside the CASE block .For example, if the 2'b10 and 2'b11 cases were not mentioned , the tool would synthesize inferred latches at the 3rd and 4th inputs of the multiplexer.
+Solution is code case with default inside the CASE block so that the tool knows what to do when a case that is not specified occurs.
+
+#### Correct code :
+
+	reg [1:0] sel
+	always @(*)
+	begin
+	     case(sel)
+	     2'b00: begin
+			   . condition 1
+			   end
+	     2'b01: begin
+			   . condition 2
+			   end
+	    default :begin
+			   . condition 3
+			   end   
+	    end case
+	    end
+    
+2.Partial assignments
+
+	always @(*)
+	begin
+		case(sel)
+			2'boo: begin
+				x = a;
+				y = b;
+			2'b01: begin
+				x = c;
+			default: begin
+				x = d;
+				y = d;
+				end
+		endcase
+	end
+
+In the above example, we have 2 outputs x and y. This will create two 4X1 multiplexers with the respective outputs. If we look at case 2'b01, we have specified the value of x for this case ,but not the value of y. It appears that it is okay to do so, as a default case is specified for both the outputs, and if we don't directly specify the value of y for any case, the simulator will implement the default case. This, however , is incorrect. In partial assignments such as this, the simulator will infer a latch at the 2nd input for multiplexer y as no value is specified for a particular case.
+
+3.Overlapping cases
+
+	always @(*)
+	begin
+		case(sel)
+			2'b00: begin
+				y = a;
+			2'b01: begin
+				y = b;
+				end
+			2'b10: begin
+				y = c;
+			2'b1?: begin
+				y = d;
+				end
+		endcase
+	end
+
+In the above code block ,2'b1? specifies that the corresponding bit can be either be 0 or 1. This means when the sel input is holding a value 3 i.e 2'b11, cases 3 and 4 both hold true. What is synthesized depends on the mercy of the simulator. It can lead to Synthesis-Simulation mismatches.
+
+If we used an IF condition here, due to priority logic, condition 4 would be ignored when condition 3 is met. However,in the CASE statement , even if the upper case is matched,all the cases are checked.So,if there is overlapping in cases,it poses a problem as the cases are not mutually exclusive. And we would get an unpredictable output.
+
+## Labs on Incorrect IF and CASE constructs
+
+### Example 1: Incomplete If statements
+
+Below is the file titled incomp_if.v, and can be found in the directory verilog_files.
+
+	vim incomp_if.v
+
+![ps1](https://user-images.githubusercontent.com/123365615/215052418-a6c8d3e1-6d49-46f7-abeb-26e15e3ff492.PNG)
+
+	iverilog incomp_if.v tb_incomp_if.v
+
+	./a.out
+
+	gtkwave tb_incomp_if.vcd
+
+The code contains an incomplete IF statement as no else condition corresponding to it is mentioned . On simulating this design , following gtkwave is obtained
+
+![ps2](https://user-images.githubusercontent.com/123365615/215053427-d7ab5c98-d331-4db3-b5d0-7b096f686a6b.PNG)
+
+From the above waveform, We observe no change in y when i0=0.It's equal to previous value when io=0. This shows latching Action, which is verified by looking at the synthesis implementation using Ysosys.
+
+	read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+	read_verilog incomp_if.v
+
+	synth -top incomp_if
+
+	abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+	write_verilog -noattr incomp_if.v
+
+	show
+
+![ps3](https://user-images.githubusercontent.com/123365615/215055389-572f3982-f818-42ee-9d20-05e31eadeab7.PNG)
+
+We see a D latch is created in the synthesized netlist.
+
+### Example 2:
+
+	vim incomp_if2.v
+
+Below is a similar example of incomp_if2.v
+
+![ps4](https://user-images.githubusercontent.com/123365615/215055805-81536bba-dbce-4cb8-bd84-a575b5bc55bf.PNG)
+
+	iverilog incomp_if2.v tb_incomp_if2.v
+
+	./a.out
+
+	gtkwave tb_incomp_if2.vcd
+
+The above code contains an incomplete IF statement as well. Here, we have 2 inputs i1 and i3, as well as 2 conditional inputs i0 and i2. As we do not specifythe case when both i0 and i2 go low,which results in an issue in the synthesis. The gtkwaveform of the simulated design is below
+
+![ps5](https://user-images.githubusercontent.com/123365615/215056834-f164a455-82fd-460b-9e4e-97ffae67571a.PNG)
+
+Observation: When io is high,output follows i1. When io is low,it looks for i2.If i2 is high,it follows i3. But if i2 is low(and io is already low),y attains a constant value=previous output.
+
+	read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+	read_verilog incomp_if2.v
+
+	synth -top incomp_if2
+
+	abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+	write_verilog -noattr incomp_if2.v
+
+	show
+
+This can be verified by checking the graphical realisation of the yosys synthesis below.
+
+![ps6](https://user-images.githubusercontent.com/123365615/215057451-b80b07b6-7d1a-409b-9d91-6fb39c319d42.PNG)
+
+Yosys synthesizes a multiplexer as well as a latch with some combinational logic at its enable pin.
+
+### Example3:
+
+	vim incomp_case.v
+
+Below is a design with Incomplete Case's specification in a mux.
+
+![ps7](https://user-images.githubusercontent.com/123365615/215057990-d74d2f5d-ffb7-4896-8252-146d78b65fa3.PNG)
+
+The truth table for the above 2X1 mux looks like:
+
+![10001](https://user-images.githubusercontent.com/123365615/215058257-c589f074-9f59-4ebf-b30a-7bbad64b96cf.png)
+
+	read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+	read_verilog incomp_case.v
+
+	synth -top incomp_case
+
+	abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+	write_verilog -noattr incomp_case.v
+
+	show
+
+Whenever se[1]=1 ,latching action takes place. The yosys synthesis implementation is given below.
+
+![ps8](https://user-images.githubusercontent.com/123365615/215059160-cff5b653-ce93-4043-9d7a-34a44e663ea2.PNG)
+
+Observation: 1. !(sel[1]) is going to D latch enable. 2.The inputs io,sel[0], !(sel[1]) go to the upper mixing logic that is implemented on D pin of the latch.
+
+### Example 4:
+
+vim comp_case.v
+
+Complete Mux along with all the cases specified.
+
+![ps9](https://user-images.githubusercontent.com/123365615/215059539-ccbf2932-1389-4571-8940-df7d8389d84f.PNG)
+
+	read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+	read_verilog comp_case.v
+
+	synth -top comp_case
+
+	abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+	write_verilog -noattr comp_case.v
+
+	show
+
+Output follows i2 at default case,if i1 and io go low. Hence a 4X1 mux is synthesized without any latch that can be verified below.
+
+![ps10](https://user-images.githubusercontent.com/123365615/215061571-d4dd2974-0619-42aa-b251-bdf4841c5125.PNG)
+
+### Example 5: Partial Assignments
+
+	vim partial_case_assign.v
+
+![ps11](https://user-images.githubusercontent.com/123365615/215062105-5bbf277b-8ff7-4992-ae73-11f797125829.PNG)
+
+Expected Circuit: The 2X1 mux with output y is inferred without any latch. To find out the latching condition of the second mux we take the help of the following truth table:
+
+![10002](https://user-images.githubusercontent.com/123365615/215062305-b016335b-5a97-42f8-922f-a245da4e6210.png)
+
+Condition for enabling:
+
+	en=sel[1]+!(sel[0]) 
+
+#### Using Redundancy Theorem
+
+	read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+	read_verilog partial_case_assign.v
+
+	synth -top partial_case_assign
+
+	abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+	write_verilog -noattr partial_case_assign.v
+
+	show
+
+Yosys implementation of the above design after synthesis,
+
+![ps12](https://user-images.githubusercontent.com/123365615/215063144-3f9af51e-a94e-41a1-91ad-eea680716b9c.PNG)
+
+As expected, Only 1 D latch is inferred for X. No latch is inferred for y.
+
+### Example 6: Design of 4X1 mux having overlapping cases
+
+	vim bad_case.v
+
+![ps13](https://user-images.githubusercontent.com/123365615/215063587-382774ba-8df5-4cdb-8ca8-6848f1cc8c1b.PNG)
+
+In gtkwaveform of RTL simulation:
+Observation : When sel[1:0]=11, the output neither follows i2 nor i3. It simply latches to 1.
+
+Whereas while running GLS on the netlist,the waveform of the synthesized netlist behaves as 4X1 mux as shown below
+
+
 
 
 
