@@ -1064,7 +1064,7 @@ The synthesizer does not see the sensitivity list rather the functionality of th
 
 If we run gate level simulations on this netlist in verilog, we observe the following waveform.
 
-![y7](https://user-images.githubusercontent.com/123365615/215013876-e1f316d0-8ee0-4e83-9c33-2472d886ed16.PNG)
+![sp2](https://user-images.githubusercontent.com/123365615/215042116-e5253db2-1259-4f1e-86dc-da6525afc96b.PNG)
 
 Here , we observe that the circuit behaves as intended combinational ckt. Output d results from the present value of inputs, and not the previous clock values like in the simulation results. Since the waveforms of the stimulated RTL verilog code do not match with the gate level simulation of generated netlist,we get a Synthesis-Simulation Mismatch again.
 
