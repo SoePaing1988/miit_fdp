@@ -1034,7 +1034,7 @@ We enter into the loop whenever any of the inputs a b or C changes but D is assi
 
 	gtkwave tb_blocking_caveat.vcd
 
-![y6](https://user-images.githubusercontent.com/123365615/215013268-d304c83d-ef32-4830-8768-dc70b5662883.PNG)
+![sp1](https://user-images.githubusercontent.com/123365615/215041432-7dd9ea7a-19c5-49b3-9d54-0d4dc36f2430.PNG)
 
 At the instance where both the inputs a and b are 0. a | b should output 0, which when ANDed with c, should give an output y of 0. The output y thus should hold the value 0. Instead,it holds the value 1 . But due to the blocking statements in the rtl code, x actually holds a the value of a OR b from the previous clock, hence giving us an incorrect output.
 
