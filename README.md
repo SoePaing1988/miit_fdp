@@ -61,7 +61,7 @@ Since the environment is now set up,we try to simulate a verilog code named good
 
 In the gtkwave window we drag all the variables and zoom fit to see the transitions for selected variable.
 
-![pic 5](https://user-images.githubusercontent.com/123365615/214267910-d28b349e-49be-4949-ad5f-832c71f0de2e.PNG)
+![sp11](https://user-images.githubusercontent.com/123365615/215048158-7fa6fe5e-d82b-4264-8bcf-1e5254d084c8.PNG)
 
  4. We can also view our Verilog RTL design and testbench code using
 
