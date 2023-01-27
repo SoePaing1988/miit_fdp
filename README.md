@@ -467,297 +467,530 @@ On synthesizing the netlist and look at it's graphical realisation , we will see
 
 # DAY 3 : Combinational and Sequential Optimisations
 
+# Introduction to Logic optimisations
+
+Inorder to produce a digital circuit design which is optimised interms of area and power, the simulator performs many types of optimisations on the combinational and sequential circuits.
+
+1.      Combinational optimisation methods:
+
+        Squezzing the logic to get the most optimised design
+                Area and Power savings
+        Constant propogation
+                Direct Optimisation
+        Boolean Logic Optimisation
+                K-map
+                Quine-mckluskey Algorithm
+2.      Sequential optimisation methods:
+
+        Basic
+                Sequential constant Propogation
+        Advanced
+                State Optimisation
+                        Retiming
+                        Sequential Logic Cloning (Floor Plan Aware Synthesis)
+                        
 # Combinational Logic Optimisations
 
-# Example 1: opt_check.v
+We will try to understand each of the above mentioned combinational optimisations through different RTL code examples. For each example, We also check the synthesis implementation through yosys to understand how the optimisations take place.
+All the optimisation examples are in files opt_check.v, opt_check4.v, and multiple_modules_opt.v. All of these files are present under the verilog_files directory.
 
-vim opt_check.v
+# Example 1:
 
-![a0](https://user-images.githubusercontent.com/123365615/214607368-b60555a2-dedb-416a-8429-7945c2572304.PNG)
+                vim opt_check.v
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+![a0](https://user-images.githubusercontent.com/123365615/214607368-b60555a2-dedb-416a-8429-7945c2572304.PNG)Ideally ,the above ternary operator should give us a mux. 
 
-read_verilog opt_check.v
+But the constant 0 propagates further in the logic .Using boolean simplification we obtain y = ab.
 
-synth -top opt_check
+Synthesizing this in yosys :
 
-opt_clean -purge
+Before realising the netlist, we must issue a command to yosys to perform optimisations. It removes all unused cells and wires to prduce optimised digital circuit.This can be done using the opt_clean -purge command as shown below.
+
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+                read_verilog opt_check.v
+
+                synth -top opt_check
+
+                opt_clean -purge
 
 ![a1](https://user-images.githubusercontent.com/123365615/214541758-cf805f8b-fc9a-4f52-a4f0-d6f0024dd911.PNG)
 
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+Observation : After executing synth -top opt_check ,we see in the report that 1 AND gate gas been inferred.
 
-write_verilog -noattr opt_check_netlist.v 
+Next,
 
-show
+                abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+                write_verilog -noattr opt_check_netlist.v 
+
+                show
+
+On viewing the graphical synthesis realisation , we can see the Yosys has synthesized an AND gate as expected.
 
 ![a2](https://user-images.githubusercontent.com/123365615/214564585-9bf2d5b2-ea87-4298-b1fd-bd042c96e0b9.PNG)
 
 # Example 2: opt_check2.v
 
-vim opt_check2.v
+                vim opt_check2.v
 
 ![a01](https://user-images.githubusercontent.com/123365615/214608542-002a42df-4813-4c57-baf3-ec58c0c77139.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog opt_check2.v
+                read_verilog opt_check2.v
 
-synth -top opt_check2
+                synth -top opt_check2
 
-opt_clean -purge
+                opt_clean -purge
 
 ![a11](https://user-images.githubusercontent.com/123365615/214610463-a9f69d79-d03f-4411-8078-47b8ad27ca7a.PNG)
 
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-write_verilog -noattr opt_check2_netlist.v 
+                write_verilog -noattr opt_check2_netlist.v 
 
-show
+                show
+
+After simplification,we expect the output y to be an OR gate, since the output of the mux can be simplified to y = a + b. If we generate the netlist and look at its graphical representation , we get
 
 ![a3](https://user-images.githubusercontent.com/123365615/214611377-d77f5fb9-d027-4d36-a896-bc55314809ec.PNG)
 
+Note: The synthesis tool instead of OR gates infers a nand gate with inverted inputs based on Demorgan's Law. It is done to avoid stacked PMOS in CMOS implemantation of OR gate.
+
 # Example 3:opt_check3.v
 
-vim opt_check3.v
+                vim opt_check3.v
 
 ![a02](https://user-images.githubusercontent.com/123365615/214609125-790d24a7-931c-42b9-9407-0544ac923d65.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog opt_check3.v
+                read_verilog opt_check3.v
 
-synth -top opt_check3
+                synth -top opt_check3
 
-opt_clean -purge
+                opt_clean -purge
 
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-write_verilog -noattr opt_check3_netlist.v 
+                write_verilog -noattr opt_check3_netlist.v 
 
-show
+                show
+
+For the RTL verilog code of opt_check3.v , we expect the output to be a 3 input AND gate based on constant propagation and boolean logic optimisation.The output y can be simplified to y = abc.
+Next we generate the netlist and observe its graphical representation after synthesis
 
 ![a4](https://user-images.githubusercontent.com/123365615/214565792-aa70ae43-0b33-433f-86c8-fa69fde12daf.PNG)
+
+Yosys synthesizes a 3 input AND gate as expected because of optimisations.
 
 
 # Example 4: opt_check4.v
 
-vim opt_check4.v
+                vim opt_check4.v
 
 ![a03](https://user-images.githubusercontent.com/123365615/214609606-671bd73b-16e9-46a9-8676-f9da3055ecac.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog opt_check4.v
+                read_verilog opt_check4.v
 
-synth -top opt_check4
+                synth -top opt_check4
 
-opt_clean -purge
+                opt_clean -purge
 
 ![ab1](https://user-images.githubusercontent.com/123365615/214617000-bb47def6-9c73-4d6f-a7f1-1c7b116f3e13.PNG)
 
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-write_verilog -noattr opt_check4_netlist.v 
+                write_verilog -noattr opt_check4_netlist.v 
 
-show
+                show
+
+In this case,the boolean logic optimisation simplifies the output to a single xnor gate i.e. y = a xnor c. Next we generate the netlist and observe its graphical representation after synthesis
 
 ![a5](https://user-images.githubusercontent.com/123365615/214567264-9ddad9b2-c009-4f04-8f6c-4205224b445e.PNG)
 
+Yosys synthesizes a 3 input XNOR gate as expected because of optimisations.
+
 # Example 5: multiple_module_opt.v
 
-vim multiple_module_opt.v
+                vim multiple_module_opt.v
 
 ![ab11](https://user-images.githubusercontent.com/123365615/214618053-7b926404-2d52-4f5b-a3b7-529c2449460b.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog multiple_module_opt.v
+                read_verilog multiple_module_opt.v
 
-synth -top multiple_module_opt
+                synth -top multiple_module_opt
 
-opt_clean -purge
+                opt_clean -purge
 
-flatten
+                flatten
 
 ![ab7](https://user-images.githubusercontent.com/123365615/214619198-0738a4ba-be37-4a33-adb5-f9b78215597e.PNG)
 
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-write_verilog -noattr multiple_module_opt_netlist.v 
+                write_verilog -noattr multiple_module_opt_netlist.v 
 
-show
+                show
+
+While synthesizing this in yosys we use flatten before opt_clean -purge. The multiple_module_opt instantiates both submodule1 and 2. We must use Flat Synthesis here otherwise the optimisations will not be performed on the sub module level.
 
 ![a8](https://user-images.githubusercontent.com/123365615/214621734-42f4972e-7973-4e9b-9758-0c03ba0fac98.PNG)
 
 # Example 6: multiple_module_opt2.v
 
-vim multiple_module_opt2.v
+                vim multiple_module_opt2.v
 
 ![a9](https://user-images.githubusercontent.com/123365615/214622511-3ad7712c-d085-4e8f-8761-18b84a226573.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog multiple_module_opt2.v
+                read_verilog multiple_module_opt2.v
 
-synth -top multiple_module_opt2
+                synth -top multiple_module_opt2
 
-opt_clean -purge
+                opt_clean -purge
 
-flatten
+                flatten
 
-abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-write_verilog -noattr multiple_module_opt2_netlist.v 
+                write_verilog -noattr multiple_module_opt2_netlist.v 
 
-show
+                show
+
+On boolean optimisation, we obtain y=1 simply. It's synthesis yields:
 
 ![a9](https://user-images.githubusercontent.com/123365615/214624095-99f4d7e2-69c4-4a00-bfbf-d96a6f108d71.PNG)
 
+
 # Sequential Logic Optimisations
+
+We will try to understand each of the sequential optimisations through different RTL code examples. For each example, We also check the synthesis implementation through yosys to understand how the optimisations take place.
+All the optimisation examples are in files dff_const2.v,dff_const3.v,dffconst4.v and dff_const5.v. All of these files are under the verilog_files directory.
 
 # Example 1: dff_const1.v
 
-vim dff_const1.v
+                vim dff_const1.v
 
 ![s1](https://user-images.githubusercontent.com/123365615/214625720-3c82b6fb-b609-4e95-ab58-4538d48f9a1e.PNG)
 
-iverilog dff_const1.v tb_dff_const1.v
+                iverilog dff_const1.v tb_dff_const1.v
 
-./a.out
+                ./a.out
 
-gtkwave tb_dff_const1.vcd
+                gtkwave tb_dff_const1.vcd
+
+Here, it appears that the output Q should be equal to an inverted reset or Q=!reset. However, as the reset is synchronous,even if the flop has D pinned to logic 1,when reset becomes 0, Q does not immediately goto 1. It waits untill the positive edge of the next clock cycle.
+This is observed by simulating the design in verilog, and viewing the VCD with GTKWave as follows
 
 ![s5](https://user-images.githubusercontent.com/123365615/214633091-69cc4cbe-a229-44ba-aebb-3f4e5ce4acaa.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+Observation : In the gtk waveform above , when reset becomes 0, Q becomes 1 at the next clock edge. Since Q can be either 1 or 0,we do not get a sequential constant, and no optimisations should be possible here. We verify it using Yosys synthesis and optimisation.
+While synthesis,We use
 
-read_verilog dff_const1.v
+                dfflibmao -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
-synth -top dff_const1
+dfflibmap is a switch that tells the synthesizer about the library to pick sequential circuits( mainly Dff's and latches) from.
 
-dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+We then generate the netlist
 
-abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+                abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 
-write_verilog -noattr dff_const1_netlist.v 
+                write_verilog -noattr dff_const1_netlist.v 
+                
+                show
 
-show
+                        read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+                        read_verilog dff_const1.v
+
+                        synth -top dff_const1
+
+                        dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+
+                        abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+
+                        write_verilog -noattr dff_const1_netlist.v 
+
+                        show
 
 ![s6](https://user-images.githubusercontent.com/123365615/214635875-20af3330-ae11-47c5-a9da-fc107468cd35.PNG)
 
+As expected, No optimisation is performed in th yosys implementation during synthesis.
+
 # Example 2: dff_const2.v
 
-vim dff_const2.v
+                vim dff_const2.v
 
 ![s2](https://user-images.githubusercontent.com/123365615/214628722-4ab54c77-6bd8-4180-99c9-6def16c0a917.PNG)
 
-iverilog dff_const2.v tb_dff_const2.v
+                iverilog dff_const2.v tb_dff_const2.v
 
-./a.out
+                ./a.out
 
-gtkwave tb_dff_const2.vcd
+                gtkwave tb_dff_const2.vcd
+
+Here, Regardless of the inputs, the output q always remains constant at 1 .
+This is observed by simulating the design in verilog, and viewing the VCD with GTKWave as follows
 
 ![s8](https://user-images.githubusercontent.com/123365615/214639650-b0aed62f-e315-42f1-90ee-c8529d96c710.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog dff_const2.v
+                read_verilog dff_const2.v
 
-synth -top dff_const2
+                synth -top dff_const2
 
-dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+                dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
-abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+                abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 
-write_verilog -noattr dff_const2_netlist.v 
+                write_verilog -noattr dff_const2_netlist.v 
 
-show
+                show
+
+Since the output is always constant ie Q=1, it can easily be optimised during synthesis.
 
 ![s7](https://user-images.githubusercontent.com/123365615/214638439-e8913f4c-e388-47a2-a417-29dc11a71b9c.PNG)
 
 # Example 3: dff_const3.v
 
-vim dff_const3.v
+                vim dff_const3.v
 
 ![s3](https://user-images.githubusercontent.com/123365615/214628873-2fe56a6e-4035-4c4e-8475-c4df4c294c5d.PNG)
 
-iverilog dff_const3.v tb_dff_const3.v
+                iverilog dff_const3.v tb_dff_const3.v
 
-./a.out
+                ./a.out
 
-gtkwave tb_dff_const3.vcd
+                gtkwave tb_dff_const3.vcd
+
+When reset goes from 1 to 0,Q1 follows D at the next positive clock edge in an ideal ckt. But in reality, Q1 becomes 1 a little after the next positive clk edge(once reset has been made 0)due to Clock-to-Q delay.
+Thus, q takes the value 0 until the next clock edge when it read an input of 1 from q1. This is confirmed with the simulated waveform below.
 
 ![s9](https://user-images.githubusercontent.com/123365615/214641311-237fa492-dc26-4f3d-81cf-bf8a8d5d5d98.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog dff_const3.v
+                read_verilog dff_const3.v
 
-synth -top dff_const3
+                synth -top dff_const3
 
-dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+                dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
-abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+                abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 
-write_verilog -noattr dff_const3_netlist.v 
+                write_verilog -noattr dff_const3_netlist.v 
 
-show
+                show
+
+Since Q takes both logic 0 and 1 values in different clock cycles. It is wrong to say that Q=!(reset) or Q=Q1
+Hence, both the flip-flops are retained and no optimisations are performed on this design. We can confirm this using Yosys as shown below.
 
 ![s11](https://user-images.githubusercontent.com/123365615/214643434-aa3f2864-499b-4b4b-81e9-07f0e17613db.PNG)
 
+Both the D flip-flops are present in the synthesized netlist.
+
 # Example 4: dff_const4.v
 
-vim dff_const4.v
+                vim dff_const4.v
+
+# RTL Code:
 
 ![s4](https://user-images.githubusercontent.com/123365615/214628960-adb1600f-3ae4-431a-ac71-22f14e4a964f.PNG)
 
-iverilog dff_const4.v tb_dff_const4.v
+                iverilog dff_const4.v tb_dff_const4.v
 
-./a.out
+                ./a.out
 
-gtkwave tb_dff_const4.vcd
+                gtkwave tb_dff_const4.vcd
+
+Here, regardless of the input whether reset or not , Q1 is always going to be constant i.e. Q1=1 . As q can only be 1 or q1 depending on the reset input , but q1 = 1 .Thus q is also constant at the value 1. We can confirm this with the simulated waveforms as shown below.
 
 ![s10](https://user-images.githubusercontent.com/123365615/214642332-c4b552be-da6a-4f14-a19f-6c1ece260fbd.PNG)
 
-read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+                read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-read_verilog dff_const4.v
+                read_verilog dff_const4.v
 
-synth -top dff_const4
+                synth -top dff_const4
 
-dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
+                dfflibmap -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib
 
-abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
+                abc -liberty ../lib/sky130_fd_sc_hd_tt_025C_1v80.lib 
 
-write_verilog -noattr dff_const4_netlist.v 
+                write_verilog -noattr dff_const4_netlist.v 
 
-show
+                show
+                
+As the output is always constant, it can easily be optimised using Yosys as shown in the graphical representation.
 
 ![s12](https://user-images.githubusercontent.com/123365615/214644050-6c26ea6e-2fae-498b-8f6f-2912f5f702e9.PNG)
 
+Unused output optimisations
+
 # Day 4: Gate Level Simulations,Blocking vs Non Blocking assignments,Synthesis-Simulation Mismatch
+
+# Introduction to Gate Level Simulations
+
+We validate our RTL design by providing stimulus to the testbench and check whether it meets our specifications earlier we were running the test bench with the RTL code as our design under test .
+But now under GLS ,we apply netlist to the testbench as desh under test . What We did at the behavioral level in the RTL code got transformed to the net list in terms of the standard cells present in the library. So,net list is logically same as the RTL code. They both have the same inputs and outputs so the netlist should seamlessly fit in the place of the RTL code. We put the netlist in place of the RTL file and run the simulation with the test bench.
+When we do simulation in with the help of RTL code there is no concept of timing analysis such as the hold and setup time which are critical for a circuit. For meeting this setup and hold time criteria there are different flavours of cell in the library.
+
+![image](https://user-images.githubusercontent.com/123365615/214999519-f2427ef9-445e-4e31-ad1c-e8fcbd0866bb.png)
+
+In GLS using iverilog flow, the design is a netlist which is given to Iverilog simulator in terms of standard cells present in the library. The library has different flavours of the same type of cell available.To make the simulator understand the specification of the different annotations of the cell the GATE level verilog models is also given as an input. If the GATE level models are timing aware (delay annotated ),then we can use the GLS for timing validation as well.
+
+Question : If netlist is the true representation of my RTL code then what is the need of functional validation of my net list?
+Answer: Because they can be simulation and synthesis mismatches.
+
+# Synthesis Simulation Mismatches
+
+        - Missing sensitivity list
+        - Blocking and non blocking statements
+Missing sensitivity list
+
+Simulator functions on the basis of activity that is it looks for if either of the inputs change. If there is no change in the inputs the simulator won't evaluate the output at all.
+
+Example:
+
+        module mux(input i0, input i1, input sel, output reg y);
+
+        always @(sel)
+        begin
+                if (sel)
+                begin
+                        y = i1;
+                end
+                else
+                begin
+                        y = i0;
+                end
+        end
+        endmodule
+
+The problem in this mux code is that simulation happens only when the select is high so if select is slow and there are changes in i zero aur i1 they get completely missed. So for the simulator this marks is as good as a latch a double h block but the synthesizer does not look at the sensitivity list rather on functionality creates a mux. Simulation: latch Synthesis:mux Hence,Mismatch.
+
+Blocking and non blocking statements Inside always block
+
+        -       Blocking Executes the statements in the order it is written So the first statement is evaluated before the second statement
+        -       Non Blocking Executes all the RHS when always block is entered and assigns to LHS. Parallel evaluation
+
+Example of Blocking assignments:
+
+                module shift_register(input clk, input reset, input d, output reg q1);
+                reg q0;
+
+                always @(posedge clk,posedge reset)
+                begin
+                        if(reset)
+                        begin
+                                q0 = 1'b0;
+                                q1 = 1'b0;
+                        end
+                        else
+                        begin
+                                q0 = d;
+                                q1 = q0;
+                        end
+                end
+                endmodule
+
+In this case, D is assigned to Qo not which is then assigned to Q. Due to optimisation a single latch is formed where Q is equal to D.
+
+Example of Non-Blocking assignments:
+
+In the above RTL code if
+
+              begin
+                        q0 <= d;
+                        q1 <= q0;
+              end
+
+In the non blocking assignments all the RHS are evaluated and parallel assigned to lhs irrespective of the order in which they appear. So we will always get a two flop shift register.
+
+Therefore we always use non blocking statements for writing sequential circuits.
+
+Other example:
+
+module comblogic(input a, input b, input c, output reg y);
+reg q0;
+
+always @(*)
+begin
+	y = q0 & c;
+	q0 = a|b;
+end
+endmodule
+We enter into the loop whenever any of the inputs a b or C changes but Y is assigned with old Qo value since it is using the value of the previous Tclk ,the simulator mimics a delay or a flop. Where as, during synthesis we see the the OR and AND gates as expected.
+
+Therefore ,while using blocking statements in this case,we should evaluate Q0 first and then Y so that Y takes on the updated values of Qo. Although both the circuits on synthesis give the same digital circuit comprising of AND, OR gates. But on simulation we get different behaviours.
+
+Labs on GLS and Synthesis-Simulation Mismatch
 
 # Example 1: A mux designed with the help of ternary operator
 
-vim ternary_operator_mux.v
+        vim ternary_operator_mux.v
 
 ![f1](https://user-images.githubusercontent.com/123365615/214810313-125798d0-fffc-4c81-9fae-e9e85f75ddb5.PNG)
 
+The synthesized netlist for the above,using yosys
 
+To invoke GLS,
+
+We need to read our netlist file and the test bench file assosciated with it.
+We need to read 2 extra files that contain the description of verilog models in the netlist.
+
+        iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v ternary_operator_mux_net.v tb_ternary_operator_mux.v
+
+To see the waveform of RTL simulation,we execute the following commands further
+
+        ./a.out
+        
+        gtkwave tb_ternary_operator_mux.v
+
+The generated netlist does behave like a 2X1 multiplexer.
 
 # Example 2: bad_mux.v
 
-vim bad_mux.v
+        vim bad_mux.v
 
 ![f3](https://user-images.githubusercontent.com/123365615/214887908-00428702-c357-4d64-8697-db08dc22859b.PNG)
 
+In this example,javascriptalways is evaluated only if javascriptselect is high.It is insensitive to javascriptio or i1 because javascriptselect is low.
 
-# Example 3: blocking_caveat.v
+This is verified by GTKWAVE of RTL Simulation below :
 
-vim blocking_caveat.v
+The design simulates a latch rather than a 2x1 mux.
+But the Yosys implementation shows a 2X1 mux .
+
+If we now implement it's GATE level netlist through GLS and observe the waveform,it shows the behaviour of a 2X1 mux as shown below:
+
+Since,the waveforms of stimulated RTL Code : Is of a LATCH the waveforms of gate level netlist thruogh GLS after synthesis: Is of 2X1 MUX We see a Synthesis-Simulation Mismatch.
+
+# Example 3: This is an example of synthesis-simulation mismatch due to wrong order of assignment in blocking assignments.
+
+        vim blocking_caveat.v
 
 ![f4](https://user-images.githubusercontent.com/123365615/214887961-7175fe34-905a-4c5e-bcf8-afb222bb5708.PNG)
+
+We enter into the loop whenever any of the inputs a b or C changes but D is assigned with old X value since it is using the value of the previous Tclk ,the simulator mimics a delay or a flop. Where as, during synthesis we see the the OR and AND gates as expected.
+
+At the instance where both the inputs a and b are 0. a | b should output 0, which when ANDed with c, should give an output y of 0. The output y thus should hold the value 0. Instead,it holds the value 1 . But due to the blocking statements in the rtl code, x actually holds a the value of a OR b from the previous clock, hence giving us an incorrect output.
+
+The netlist representation on synthesis yields
+
+The synthesizer does not see the sensitivity list rather the functionality of the RTL design.Hence,the netlist representation does not include any latches to hold delayed values pertaining to the previous cycle. It only includes an OR 2 AND gate.
+
+If we run gate level simulations on this netlist in verilog, we observe the following waveform.
+
+Here , we observe that the circuit behaves as intended combinational ckt. Output d results from the present value of inputs, and not the previous clock values like in the simulation results. Since the waveforms of the stimulated RTL verilog code do not match with the gate level simulation of generated netlist,we get a Synthesis-Simulation Mismatch again.
 
 
 
