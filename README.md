@@ -172,7 +172,7 @@ Propagation delay is the time required for the input to be reflected in the outp
 
 So fastercells don't come free. They come at the tradeoffs of area and power.
 
-#How do we select cells?
+# How do we select cells?
 
  - We need to guide the synthesizer to select the flavour of cells for optimum implementation of our logic circuits.
  - More use of faster cells results in bad circuit in terms of area and power and potentially may result in hold time violations.
