@@ -940,23 +940,35 @@ Labs on GLS and Synthesis-Simulation Mismatch
 
 ![f1](https://user-images.githubusercontent.com/123365615/214810313-125798d0-fffc-4c81-9fae-e9e85f75ddb5.PNG)
 
+	read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+	read_verilog ternary_operator_mux.v
+
+	synth -top ternary_operator_mux
+
+	abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+	write_verilog -noattr ternary_operator_mux.v
+
+	show
+
 The synthesized netlist for the above,using yosys
 
-abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
-
+![y1](https://user-images.githubusercontent.com/123365615/215009271-7b157761-341a-44ff-aae0-4edeeb539af0.PNG)
 
 To invoke GLS,
 
 We need to read our netlist file and the test bench file assosciated with it.
 We need to read 2 extra files that contain the description of verilog models in the netlist.
 
-        iverilog ../lib/verilog_model/primitives.v ../lib/verilog_model/sky130_fd_sc_hd.v ternary_operator_mux_net.v tb_ternary_operator_mux.v
+		iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v  ternary_operator_mux_net.v tb_ternary_operator_mux.v
 
 To see the waveform of RTL simulation,we execute the following commands further
 
-        ./a.out
-        
-        gtkwave tb_ternary_operator_mux.v
+		./a.out
+		gtkwave tb_ternary_operator_mux.vcd 
+
+![y2](https://user-images.githubusercontent.com/123365615/215010497-7b63bf78-4678-46ea-aa6b-2e3d1b7aa3ef.PNG)
 
 The generated netlist does behave like a 2X1 multiplexer.
 
@@ -968,12 +980,42 @@ The generated netlist does behave like a 2X1 multiplexer.
 
 In this example,javascriptalways is evaluated only if javascriptselect is high.It is insensitive to javascriptio or i1 because javascriptselect is low.
 
+	iverilog bad_mux.v tb_bad_mux.v
+
+	./a.out
+
+	gtkwave tb_bad_mux.vcd
+
 This is verified by GTKWAVE of RTL Simulation below :
+
+![y3](https://user-images.githubusercontent.com/123365615/215011355-9ef8af17-6468-4428-9741-2eabc43962df.PNG)
 
 The design simulates a latch rather than a 2x1 mux.
 But the Yosys implementation shows a 2X1 mux .
 
+	read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+	read_verilog bad_mux.v
+
+	synth -top bad_mux
+
+	abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+	write_verilog -noattr bad_mux.v
+
+	show
+
+![y4](https://user-images.githubusercontent.com/123365615/215012096-8908aa2e-5e86-4e31-b2d3-f9ec1bdd7f4a.PNG)
+
+	iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v  bad_mux_net.v tb_bad_mux.v
+	
+	./a.out
+	
+	gtkwave tb_bad_mux.vcd 
+
 If we now implement it's GATE level netlist through GLS and observe the waveform,it shows the behaviour of a 2X1 mux as shown below:
+
+![y5](https://user-images.githubusercontent.com/123365615/215012678-1ee977e5-4ddb-4e70-82f8-a974a25728af.PNG)
 
 Since,the waveforms of stimulated RTL Code : Is of a LATCH the waveforms of gate level netlist thruogh GLS after synthesis: Is of 2X1 MUX We see a Synthesis-Simulation Mismatch.
 
@@ -985,13 +1027,43 @@ Since,the waveforms of stimulated RTL Code : Is of a LATCH the waveforms of gate
 
 We enter into the loop whenever any of the inputs a b or C changes but D is assigned with old X value since it is using the value of the previous Tclk ,the simulator mimics a delay or a flop. Where as, during synthesis we see the the OR and AND gates as expected.
 
+	iverilog blocking_caveat.v tb_blocking_caveat.v
+
+	./a.out
+
+	gtkwave tb_blocking_caveat.vcd
+
+![y6](https://user-images.githubusercontent.com/123365615/215013268-d304c83d-ef32-4830-8768-dc70b5662883.PNG)
+
 At the instance where both the inputs a and b are 0. a | b should output 0, which when ANDed with c, should give an output y of 0. The output y thus should hold the value 0. Instead,it holds the value 1 . But due to the blocking statements in the rtl code, x actually holds a the value of a OR b from the previous clock, hence giving us an incorrect output.
+
+	read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+	read_verilog blocking_caveat.v
+
+	synth -top blocking_caveat
+
+	abc -liberty ~/Desktop/vsd/vlsi/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+
+	write_verilog -noattr blocking_caveat.v
+
+	show
 
 The netlist representation on synthesis yields
 
+![y8](https://user-images.githubusercontent.com/123365615/215014885-9439c2a7-de6b-4616-9f47-03ff212b1543.PNG)
+
 The synthesizer does not see the sensitivity list rather the functionality of the RTL design.Hence,the netlist representation does not include any latches to hold delayed values pertaining to the previous cycle. It only includes an OR 2 AND gate.
 
+	iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v  blocking_caveat_net.v tb_blocking_caveat.v
+	
+	./a.out
+	
+	gtkwave tb_blocking_caveat.vcd 
+
 If we run gate level simulations on this netlist in verilog, we observe the following waveform.
+
+![y7](https://user-images.githubusercontent.com/123365615/215013876-e1f316d0-8ee0-4e83-9c33-2472d886ed16.PNG)
 
 Here , we observe that the circuit behaves as intended combinational ckt. Output d results from the present value of inputs, and not the previous clock values like in the simulation results. Since the waveforms of the stimulated RTL verilog code do not match with the gate level simulation of generated netlist,we get a Synthesis-Simulation Mismatch again.
 
