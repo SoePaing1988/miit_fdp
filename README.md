@@ -1590,6 +1590,64 @@ Error2
 
 ![image](https://user-images.githubusercontent.com/123365615/215938056-b11944a5-14f0-4753-b31a-e0df900e8c4a.png)
 
+ 
+# Day 7
+
+![image](https://user-images.githubusercontent.com/123365615/215981647-fa59f43f-1201-4d74-b75f-2f76c7b93096.png)
+
+	cd lib.ref
+
+![image](https://user-images.githubusercontent.com/123365615/215981699-fc5ad199-3880-4a12-a1ca-3a3e2ab6f59b.png)
+
+	cd libs.tech
+
+![image](https://user-images.githubusercontent.com/123365615/215981766-c31bc390-48eb-4b90-8c38-954a8c8cf8bb.png)
+
+Setting up docker bouilt:
+
+	git clone git@github.com:efabless/openlane --branch rc2
+
+	cd openlane/docker_built
+
+	make merge
+
+![image](https://user-images.githubusercontent.com/123365615/215981838-1082950d-f0e3-47f1-bff0-32799fac7242.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215981972-d3bcac90-b31e-4b1d-85d4-cf30b56d3da9.png)
+
+Running Openlane
+
+After Successfully built, the following result is shown and then type the commands:
+
+	cd ..
+
+	docker
+
+	./flow.tcl –interactive
+
+After that, the following result is shown
+
+![image](https://user-images.githubusercontent.com/123365615/215982106-173c5d61-b138-406f-a38e-edd863494575.png)
+
+Adding a design:
+
+	cd /Desktop/work/tools/openlane_working_dir/openlane/designs
+
+	ls -ltr 
+ 
+ ![image](https://user-images.githubusercontent.com/123365615/215982245-f7d924ea-9925-4859-a27f-efdb2fcbc7a1.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215982287-eca27a7e-3d91-454f-a1f9-89df6f0f5f14.png)
+
+
+ 
+
+
+
+
+
+
+
 
  
 
