@@ -1552,8 +1552,51 @@ Takeaways from this workshop:
 -	We learnt to verify the simulation -synthesis results by feeding netlist+testbench+Gate verilog models to the iverilog,during GLS(gate level synthesis simulation).
 -	We learnt good coding practices and ways to write optimised verilog codes.
 
-## Acknowledgment:
-Kunal Ghosh - Co-founder(Vsd corp. pvt.ltd.)
+Day 6
+ 
+ ![image](https://user-images.githubusercontent.com/123365615/215937593-7cbf414c-11ef-45dc-864f-d40aa86d469b.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937631-149ac37b-8f82-4768-b88c-53165b652bf0.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937662-b98c05e6-251f-4a47-8889-20997905ba67.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937685-c8cad4dc-c107-466d-8ae3-d3eb521e79ec.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937719-d1f1e54a-82b0-435b-8d80-44e099356ac9.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937748-0db6007a-2eae-4a4d-9f00-5ff47dce7457.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937807-ca2871a4-aa7f-4cd5-995e-cb8616be40a8.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937829-60a6684f-89ce-4237-a8a9-e895a14b370c.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937842-73957c8a-6cfb-40e8-b78a-192e89612398.png)
+ 
+Warning
+
+![image](https://user-images.githubusercontent.com/123365615/215937872-b6c9a0ae-9a9a-460b-a6b0-c8e801badd8b.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937916-eb970407-3c34-416d-be0d-1ba51eb6db66.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937958-70095f95-16df-46cd-aee4-2107619497b2.png)
+
+![image](https://user-images.githubusercontent.com/123365615/215937991-60ef9b7a-e92b-42a7-9a56-9d8183a7c069.png)
+
+Error1
+
+![image](https://user-images.githubusercontent.com/123365615/215938026-7ef698c8-e072-476f-bcec-813bc491da8f.png)
+
+Error2
+
+![image](https://user-images.githubusercontent.com/123365615/215938056-b11944a5-14f0-4753-b31a-e0df900e8c4a.png)
+
+
+ 
+
+
+
+
+
 
 
 
