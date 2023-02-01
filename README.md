@@ -1818,7 +1818,9 @@ Now, if we are going into the design folder in openlane, there are nearly 30-40 
 Here we can see that the time period is set to the 5.00 nsec. but is we see in the openlane sky130_fd_sc_hd folder, the period is set about 24 nsec. so it is not override to the main file. If it override then give first priority to the main folder.
 
 Another Terminal
-	cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a
+
+	cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a	
+
 	less config.tcl 
 
 ![image](https://user-images.githubusercontent.com/123365615/216042210-240620d8-da24-43c7-98bb-55523602c5a0.png)
@@ -1826,40 +1828,84 @@ Another Terminal
 Now, in openlane, we are going to run the synthesis, but before synthesis, we have to prepare design setup stage. for that command is " prep -design picorv32a".
 so, here it is shown that preparation is completed.
 
-less sky130A_sky130_fd_sc_hd_config.tcl
+### Review after design preparation and run synthesis
+
+After completing the preparation, in the picorv32a file, the run terictory is created. Inside the folder, Today's date is created. so in this terictory some folders are available which is required for openlane.
+	
+	less sky130A_sky130_fd_sc_hd_config.tcl
 
 ![image](https://user-images.githubusercontent.com/123365615/216042850-f9c9aa86-ea92-466b-9532-101049cf98ee.png)
 
-cd runs
-ls
-cd 01-02_11-17/
-ls -ltr
+	cd runs
+	ls
+	cd 01-02_11-17/
+	ls -ltr
 
 ![image](https://user-images.githubusercontent.com/123365615/216042936-2855620b-9921-44dc-8ea5-20c05ee33d44.png)
 
-cd tmp
-less merged.lef 
+In the temp file, merged.lef file is available which was created in preparation time. if we open this merged.lef file, we get all the wire or layer level and cell level information.
+
+	cd tmp
+	less merged.lef 
+
+![image](https://user-images.githubusercontent.com/123365615/216044358-d060b580-0cee-4c1e-80ae-4c9cca6597c6.png)
+
+While, in the result folder is empty because till we have not run anything and in the report folder all the folders are there about synthesis, placement, floorplanning,cts,routing,magic,lvs.
  
-cd ..
-cd results/
-ls -ltr
-cd ..
-cd reports/
-ls -ltr
+	cd ..
+	cd results/
+	ls -ltr
+	cd ..
+	cd reports/
+	ls -ltr
+
+![image](https://user-images.githubusercontent.com/123365615/216044493-483c9a39-8636-4a6b-a3d8-a3bed608a2df.png)
+
+now here also one config.tcl file is available similar like design folder. But this config.tcl file contains all default parameter taken by the run.
+ 
+	cd ..
+	less config.tcl
+
+![image](https://user-images.githubusercontent.com/123365615/216044610-88f5d540-3f4a-472d-898b-98f31b3fc86a.png)
+
+when we make some change in the origional configuration and then we run, for example if we make a change in core utilization in the floorplanning and then we run the floorplanning, at this time in the congig.tcl file, the core utility will change and by cross checking it we can check that the modification is reflected in the exicution or not.
+
+Now, cmds.log file takes all the record of the commands, what we have fab.
+ 
+	less cmds.log
+
+![image](https://user-images.githubusercontent.com/123365615/216044666-8463caaa-002a-40f8-ad0a-f48a019bebaa.png)
 
  
-cd ..
-less config.tcl
- 
-less cmds.log
- 
 At openlane terminal
-% run_synthesis
+
+	% run_synthesis
+	
+Now coming to the openlane, we are going to run the synthesis. It will take some 3-4 mnts to run the synthesis and finally synthesis will complited.
+
+![image](https://user-images.githubusercontent.com/123365615/216044790-b5c6e77a-98ab-46fd-ab40-6e3d05ee9088.png)
+
+From the data of synthesis, total number of counter D_flip-flops is 1613. and the number of cells is 14876.
+
+![image](https://user-images.githubusercontent.com/123365615/216044832-bf7c1c51-3f70-430d-96bb-ac519569b6cd.png)
+
+![m13](https://user-images.githubusercontent.com/123365615/216045477-23e570f5-0b73-4559-9d25-33452c1acc98.PNG)
+
+So, the flop ratio = (number of flip flops)/(number of total cell).
+
+So, the flop ratio is 10.84%.
+
+Before run, we saw that the result folder is empty. but now, after running the synthesis, we can see that all the mapping have been done by ABC.
  
+And in the report, we can see when the actual synthesis has done. and the actual statistics synthesis report is showing below, which is same as what we have seen before.
 At normal terminal
-cd results/synthesis/
-ls
-less picorv32a.synthesis.v
+
+	cd results/synthesis/
+	ls
+	less picorv32a.synthesis.v
+
+![image](https://user-images.githubusercontent.com/123365615/216044886-f7683d8c-ed14-4a84-b642-7c8089be4fb4.png)
+
  
 
 
