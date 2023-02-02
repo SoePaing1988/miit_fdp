@@ -2048,13 +2048,19 @@ So, floor plan is ready for Placement and Routing step.
 
 Before run the floorplanning, we required some switches for the floorplanning. these we can get from the configuration from openlane.
 
-image1
+	cd Desktop/work/tools/openlane_working_dir/openlane/configuration/
+
+	less README.md 
+
+![y1](https://user-images.githubusercontent.com/123365615/216312550-fcd15363-cc5a-4f76-af16-1d2a99216e97.PNG)
 
 Here we can see that the core utilization ratio is 50% (bydefault) and aspect ratio is 1 (bydefault). similarly other information is also given. But it is not neccessory to take these values. we need to change these value as per the given requirments also.
 
 Here FP_PDN files are set the power distribution network. These switches are set in the floorplane stage bydefault in OpenLANE.
 
-image2
+	less floorplan.tcl
+
+![y2](https://user-images.githubusercontent.com/123365615/216313780-5a188869-ffc2-4571-a213-3be77cce0951.PNG)
 
 Here, (FP_IO MODE) 1, 0 means pin positioning is random but it is on equal distance.
 
@@ -2066,49 +2072,61 @@ Now we see, with this settings how floorplan run.
 
 In the run folder, we can see the connfig.tcl file. this file contains all the configuration that are taken by the flow. if we open the config.tcl file, then we can see that which are the parameters are accepted in the current flow.
 
-image3
+	cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/02-02_11-34
+
+	less config.tcl 
+
+![y3](https://user-images.githubusercontent.com/123365615/216318160-9e425496-88b3-4057-9f0a-a5722008d3d9.PNG)
 
 here we can see that, the core utilization is 35%, aspect ratio is 1 and core margin is taken as 0. while in default the core utilization is 50%. this is the issue. because this design is override the system. but it is the taken from PDK varient.tcl file. so priority vise it is true.
 
 To watch how floorplane looks, we have to go in the results. in the result, one def( design exchange formate) file is available. if we open this file, we can see all information about die area (0 0) (660685 671405), unit distance in micron (1000). it means 1 micron means 1000 databased units. so 660685 and 671405 are databased units. and if we devide this by 1000 then we can get the dimensions of chips in micrometer.
 
-image4
+	cd results/floorplan
+
+	ls -ltr
+
+	less picorv32a.floorplan.def
+
+![y4](https://user-images.githubusercontent.com/123365615/216318818-4c629088-5f4c-45cc-92df-efd0e271e41d.PNG)
 
 so, the width of chip is 660.685 micrometer and height of the chip is 671.405 micrometer.
 
-To see the actual layout after the flow, we have to open the magic file by adding the command magic -T /home/kunalg123/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def
+To see the actual layout after the flow, we have to open the magic file by adding the command 
+
+	magic -T /home/soe_paing/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef  def read picorv32a.floorplan.def
 
 And then after pressing the enter, Magic file will open. here we can see the layout.
 
-image5
+![y5](https://user-images.githubusercontent.com/123365615/216321008-a6199f3b-e7d7-4d5f-8d14-ed6085aef7c5.PNG)
 
 ### Reviewing floorplan layot with magic.
 
 In the layout we can see that, input output pins are at equal distance.
 
-image6
+![y6](https://user-images.githubusercontent.com/123365615/216321840-42a0e7c4-bfb2-4471-8dec-83b97fdf045c.PNG)
 
 after selecting (To select object, first click on the object and then press 's' from keyboard. the object will hight lited. to zoom in the object, click on the object and then press 'z' and for zoom out press 'sft+z') one input pin, if we want to check the location or to know at on which layer it is available, we have to open tkcon window and type "what". it will shows all the details about that perticular pin.
 
-image7
+![y7](https://user-images.githubusercontent.com/123365615/216328245-1e294913-1ca7-426a-bed0-4e5c5b20ef53.jpg)
 
-image8
+![y8](https://user-images.githubusercontent.com/123365615/216328293-78d178ad-9c4a-4fe2-a05d-a76bf4f18abd.PNG)
 
 so, it show that the pin is in the metal 3.similarly doing for the vertical pins, we find that this pin is at metal 2.
 
-image9
+![y9](https://user-images.githubusercontent.com/123365615/216330325-d6223e57-4c7b-481a-8aa5-5f5d0843ddad.PNG)
 
 Along with the side rows,the Decap cells are arranged at the border of the side rows.
 
-image10
+![y10](https://user-images.githubusercontent.com/123365615/216330756-84288785-ac18-4734-af5e-8e9b4607ff13.jpg)
 
 Another cells also placed here, which is a tap cells. these cells are meant to avoide the latch-up problems in the CMOS devices. it connect N-well to the Vdd and substrate to the Ground. these tap cells are placed at diagonally equal distance.
 
-image11
+![j11](https://user-images.githubusercontent.com/123365615/216331438-eca3a9b0-9443-411a-be5b-67c9405a8eaf.jpg)
 
 In the floorplane, standerd cells are not placed but here standerd cells are available in the left side of the floorplan. we can see few boxes are there.
 
-image12
+![y12](https://user-images.githubusercontent.com/123365615/216329373-ea7b2608-972d-4813-ab52-6a6d92573a68.jpg)
 
 here we can see that first standerd cells is for buffer 1. similarly other cells are for buffer 2, AND gate etc.
 
