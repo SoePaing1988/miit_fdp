@@ -2138,19 +2138,18 @@ here we can see that first standerd cells is for buffer 1. similarly other cells
 
 Taking netlist as what we taken before,
 
-image13
+![image](https://user-images.githubusercontent.com/123365615/216332028-1663658b-7b9e-4e78-b41e-614995690f02.png)
 
 Here, we can see that every gate or flip-flops have a shape to understand the functionality of the element. But practically, this cells are square or rectangular boxes which has internally some logic to perform. So, here we are taking all the elements from netlist and giving them a perfact height and width with perticular dimention. These all cells together are called 'self'. And this self are stored in the lybrary. Library have all the innformation about all the blocks, like height, width , time delay, conditional innformation, etc. library also have a option for the similar cells (with same functionality) like this with different height and width. According to our space available at floorplanning we can choose out of them.
 
-image14
+![image](https://user-images.githubusercontent.com/123365615/216332111-2b8335b2-469a-425f-adce-363a6dc859e7.png)
 
 After giving size and shape to each and every box, next step is to take the boxes or element from library and placed in the floorplan. This is called placements of the cells.According to the design of the netlist, we have to put physical blocks in the floorplan which we have design before.Put all the blocks according to the input and output of that perticular blocks.
 
-image15
-
+![image](https://user-images.githubusercontent.com/123365615/216332122-0dbf3e09-7a1b-4f34-8dd9-560563a5a955.png)
 up to here we have done stage one and stage two placement. Now we will going for stage 3 and 4. here we have to place FF1 of stage 3 nearer to the Din3 and FF2 of stage 3 nearer to the Dout3. But Din3 and Dout3 are at somme distance from eachother. same thing is there for FF1 and FF2 of stage 4. Let's we placed these all element in such manner that all elements are closed to it's input and output pins.
 
-image16
+![image](https://user-images.githubusercontent.com/123365615/216332155-1595f17e-57fc-49b8-bc2c-f13c5baf456c.png)
 
 But, the distance of FF1 of Stage 4 and Din4 is still far them others. By optimizing the placement, we can solve this problem.
 
@@ -2164,17 +2163,17 @@ To maintain the integrity of the signal out from Din2 to FF1, we have to put som
 
 In the stage 1, there is no need of any repeater to transmit the signal. But in stage 2, due to high distance, the lenth of wire is high and signal is not transmitted in perticular range. so we required repeater.
 
-image17
+![image](https://user-images.githubusercontent.com/123365615/216332198-6ff2f97b-e2f9-4038-834a-6424171b0bb4.png)
 
 #### Final Optimization
 
 Similar as stage 2, in Stage 3 also we required the buffer between gate 2 and FF2.
 
-image18
+![image](https://user-images.githubusercontent.com/123365615/216332247-4f2b6fb1-dddc-4f0e-af73-16ffb58eff6c.png)
 
 Stage 4 is bit tricky as compared to other stages.
 
-image19
+![image](https://user-images.githubusercontent.com/123365615/216332274-c119c399-cb8a-489f-bde2-0f1af0b9a18b.png)
 
 Now we have to check that, what we have done is correct or not. For that we need to do Timing analysis by considering the ideal clocks and according to the data of analysis, we will understand that, the placement is correct or not.
 
