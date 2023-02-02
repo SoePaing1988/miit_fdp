@@ -2193,11 +2193,11 @@ When we run the placement, first Global placement is happens. main objective of 
 
 Now opening the Magic file to see actual view of standerd cells placement.And the actual view in the magic file is given below,
 
-image20
+![image](https://user-images.githubusercontent.com/123365615/216337509-e72672a5-8e00-4137-b06a-80f55086fc4c.png)
 
 If we zooom into this, we find the buffers, gates, flip flops in this.
 
-image21
+![y20](https://user-images.githubusercontent.com/123365615/216337843-37517509-5866-495b-b578-0074ce9860ef.PNG)
 
 ### Cell design and characterization flows
 
@@ -2215,7 +2215,7 @@ The cell design flow is devided into three part.
 -	Design steps
 -	Outputs
 
-image22
+![image](https://user-images.githubusercontent.com/123365615/216338410-09b41a34-e6d9-4b8c-89c7-0be06b5d87fc.png)
 
 ##### (1)inputs
 
@@ -2235,23 +2235,23 @@ The typical output what we get from the circuit design is CDL(circuit descriptio
 
 -	implement function
 
-image23
+![image](https://user-images.githubusercontent.com/123365615/216338491-104e241a-5911-4735-b6a8-ed92ec5fd3dc.png)
 
 -	Derive the NMOS and PMOS network graph
 
-image24
+![image](https://user-images.githubusercontent.com/123365615/216338531-da14d07d-d81a-4e26-91d3-497d3eb13cce.png)
 
 -	Obtain the Euler's path
 
-image25
+![image](https://user-images.githubusercontent.com/123365615/216338623-9ce3cc4d-fc21-42cf-8958-dfc6b27a714b.png)
 
 -	Stick diagram
 
-image26
+![image](https://user-images.githubusercontent.com/123365615/216338658-ec65d01b-24ea-4ce3-b9bb-b043d6c8111c.png)
 
 -	Convert stick diagram into proper layout
 
-image27
+![image](https://user-images.githubusercontent.com/123365615/216338702-d82907a3-d678-4753-a3ef-56511bfa8093.png)
 
 After layout design, we have to ecxtract the layout and characterize it. In characterization step, we can get the information about Timing, Noice,power.libs and function.
 
@@ -2259,7 +2259,7 @@ After layout design, we have to ecxtract the layout and characterize it. In char
 
 As of now, from the circuit design and layout design, we have final layout of buffer cell. where two buffers are connected in series with each other.
 
-image28
+[image28](https://user-images.githubusercontent.com/123488595/215042474-c46416f4-7d0d-4a4d-8359-4d24144a2773.png)
 
 Now steps of flow is:
 
@@ -2277,11 +2277,11 @@ Now steps of flow is:
 
 #### Timing threshold defination
 
-image29
+![image](https://user-images.githubusercontent.com/123365615/216338883-677d6e05-bdaa-4583-8993-a4d056d61f37.png)
 
 Let we take the waveform from the output of the first buffer and it will be input of the second buffer and taking output of the second buffer also.
 
-image30
+[image30](https://user-images.githubusercontent.com/123488595/215048979-74e91dfe-b67e-42fc-8845-c70834af6314.png)
 
 -	slew_low_rise_thr
 here low means nearer to the ground, and rise tresold means we want to measer the slope of the increasing graph. typical value of slew low rise thr is around 20-30%.
@@ -2289,17 +2289,17 @@ here low means nearer to the ground, and rise tresold means we want to measer th
 -	slew_high_rise_thr
 same as above, high means nearer to high value.
 
-image31
+![image](https://user-images.githubusercontent.com/123365615/216338971-0f595bc6-4f1d-40bd-9535-06eba30b1957.png)
 
 whenever we want to calculate the slew, take the point at 20% from the low and take the point at 20% from the high. according to these point, take the time data and the time difference between them will helps to calculate the slew.
 
 -	slew_low_fall_thr
 
-image32
+![image](https://user-images.githubusercontent.com/123365615/216339016-6f2a9310-d06c-4217-9d69-46bbf18b54f4.png)
 
 -	slew_high_fall_thr
 
-image33
+![image](https://user-images.githubusercontent.com/123365615/216339085-8ab4300f-7fc5-4f29-aee2-25e5b2856b4e.png)
 
 NOw, taking the waveform of input stimulus which is input of the first buffer and with that taking output of the first buffer.
 
@@ -2307,23 +2307,23 @@ Similar as a slew, thresolds are for delay also available. for that same as slew
 
 -	in_rise_thr
 
-image34
+![image](https://user-images.githubusercontent.com/123365615/216339169-3556935d-002d-4e02-8ecc-996c85cfd825.png)
 
 -	in_fall_thr
 
-image35
+![image](https://user-images.githubusercontent.com/123365615/216339241-09b3595d-ceca-4632-86fd-f6cc3798ad3a.png)
 
 -	out_rise_thr
 
-image36
+![image](https://user-images.githubusercontent.com/123365615/216339288-82e9fea5-2eb3-4926-ac62-195ce4b4d7a3.png)
 
 -	out_fall_thr
 
-image37
+![image](https://user-images.githubusercontent.com/123365615/216339379-8880626c-b9b4-4ee2-b013-0d20973a328f.png)
 
 So, according to rise and fall theresold we can find the rise delay and fall delay of the buffer.
 
-image38
+![image](https://user-images.githubusercontent.com/123365615/216339429-93e9331d-b208-42d7-a758-6f62b2d6e09b.png)
 
 ### Propogation delay and Transition time
 
@@ -2333,13 +2333,15 @@ let's take the same setup for understand the propogation delay. Time delay = Tim
 
 Let's take waveform on which we can apply above formula.
 
-image39
+![image](https://user-images.githubusercontent.com/123365615/216339480-e0b3d2b5-ccfc-48c8-a313-e5b60737ec6e.png)
 
 In any case if thresold point move at the top, at that time we get negative delay because output comes before input. so reason behind the negative delay is the poor choice of the tresold points. which is not acceptable. so, choosing the thresold point is very important.
 
-image40
+![image](https://user-images.githubusercontent.com/123365615/216339513-2c13d6aa-ef78-47e0-8b22-3fc6489e36db.png)
 
 Taking another example where the wire delay is very high because of high distance between two elements. so, here by choosing correct thresold point then also we get the negative delay.
+
+https://user-images.githubusercontent.com/123488595/215055564-4dfad413-5dcf-47b0-89ca-bfa81a55163f.png
 
 #### Transition time
 
@@ -2351,7 +2353,7 @@ transition time = time(slew_high_fall_thr)- time(slew_low_fall_thr)
 
 let's take waveform for understand the slew calculation.
 
-image41
+![image](https://user-images.githubusercontent.com/123365615/216339637-d285b7db-c8da-4ba6-a460-20e8c85d03ad.png)
 
 
 
