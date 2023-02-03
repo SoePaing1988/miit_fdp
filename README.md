@@ -2370,7 +2370,9 @@ For that first we have to check the swithes in the configuration and from that w
 
 Then check the changes in the pins location through magic -T.
 
-image1
+	 set ::env(FP_IO_MODE) 2
+
+![x1](https://user-images.githubusercontent.com/123365615/216605076-81017bce-cfc1-4248-b620-3c9c27c75567.PNG)
 
 
 So, here we can see that there are no pins in the upper half side. all pins are in the lower half of the core.
@@ -2455,37 +2457,59 @@ By comparing this both the graph we can understang the concept of switching thre
 
 To get the clone, copy the clone address from reporetery and paste in openlane terminal after the command "git clone". this will create the folder called "vsdstdcelldesign" in openlane directory.
 
-image2
+	cd Desktop/work/tools/openlane_working_dir/openlane/
+
+	git clone http://github.com/nickson-jose/vsdstdcelldesign.git
+
+![x2](https://user-images.githubusercontent.com/123365615/216606645-25be39a3-7633-4bed-a9f2-52f104db52a4.PNG)
 
 now, if we open the openlane directory, we find the vsdstdcelldesing folder in the openlane directory.
 
-image3
+	ls -ltr
+
+![x3](https://user-images.githubusercontent.com/123365615/216607062-c6abc672-d7ea-4e1d-a760-eae9bcfe833f.PNG)
 
 Now if we goes in the vsdstdcelldesign folder and open it, we get the .mag file,libs file etc.
 
-image4
+	cd vsdstdcelldesign
+
+	ls -ltr
+
+![x4](https://user-images.githubusercontent.com/123365615/216607349-7fea713d-9e03-407e-8bfd-4b5e3215a666.PNG)
 
 now, let's open the .mag file and see that which layers are used to build the inverter. But before opening the mag file, we need tech file. so we will copy this file from this given below address,
 
-image5
+	cd ..
+	cd ..
+	cd pdks/sky130A/libs.tech/magic
 
 And do copy by "cp" command to the location which is given below,
 
-image6
+	cp sky130A.tech /home/soe_paing/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+
+	cd ../../../..
 
 Now, we can see that this file is copied in the vsdstdcelldesign folder.
 
-image7
+	 cd openlane
+	 ls -ltr
+	 
+![x7](https://user-images.githubusercontent.com/123365615/216610787-eebf3482-55ad-4c9a-9315-ca38cd61fca6.PNG)
 
 Now, here to see the layout in magic, we don't need to write the whole address because we copy the tech file here.
 
 Now, appying the magic comand like this,
 
-image8
+	cd vsdstdcelldesign
+	ls -ltr
+
+![x8](https://user-images.githubusercontent.com/123365615/216611339-479d0cd6-30c0-435a-a187-eb741fb91ee2.PNG)
 
 Now, we can see the layout of CMOS inverter in the magic like this,
 
-image9
+	magic T sky130A.tech sky130_inv.mag &
+
+![x9](https://user-images.githubusercontent.com/123365615/216613478-4f7edc97-74eb-499b-abc7-b872530858d2.PNG)
 
 ### Inception of layout CMOS fabrication process
 
@@ -2672,17 +2696,17 @@ And finally our CMOS is looks like this after the fabrication.
 
 ### Lab introduction to Sky130 basic layer layout and LEF using inverter
 
-image10
+![x9](https://user-images.githubusercontent.com/123365615/216614056-26387fbd-41bb-4310-8d12-ad503c0d0c74.PNG)
 
 In sky130, every color is showing the different layer. here the firsst layer is for local interconnect shown by blue_perpel color, then second layer is metal 1 which is showm by light perple color, and the metal 2 is shown by pink color. N-well is showm by solide das line. green is N-diffusion region. and red is for polysilicon gate. similarly the brown color is for P-diffusion.
 
 In tckon window, we can see that the selected area is NMOS and similarly we can chech PMOS also. and that is how we can check that the CMOS is working or not.
 
-image11
+![x10](https://user-images.githubusercontent.com/123365615/216615513-0bb94889-1f44-440a-80ca-43a79fd16429.jpg)
 
 semilarly we check for the output terminal also.(by double pressing "S" to select the entire thing at output Y).
 
-image12
+![x11](https://user-images.githubusercontent.com/123365615/216613992-f2a9d06b-2fa4-49fd-a01a-ba9ea55c3654.PNG)
 
 so, we can see that "Y" is attached to locali in cell def sky130_inv.
 
@@ -2692,29 +2716,34 @@ we can check the source of the PMOS is connected to the ground or not. and simil
 
 To extract the file from here, we have to write the command in tckon window. and the comand is "extract all".
 
-image13
+![x12](https://user-images.githubusercontent.com/123365615/216614979-70c3d4d3-a99c-45b6-804a-30b5be111bc7.PNG)
 
 Now let's go to this location from the terminal. it is exctracted.
 
-image14
+	ls -ltr
+
+![x14](https://user-images.githubusercontent.com/123365615/216615930-9cec8808-7753-4e32-96e9-7af0795bb3a5.PNG)
 
 we will use this .ext file to create the spice file to be use with our ngspice tool. for that we have apply the comand "ext2spice cthresh 0 rthresh 0". this will not create anything new. now again we have to type "ext2spice" comand in tckon window.
 
-image15
 
 so, now we are checking the location and at there spice file has been created.
 
-image16
+	ls -ltr
+
+![x16](https://user-images.githubusercontent.com/123365615/216616720-cadaf74e-aff1-4665-abbb-42f4759bd608.PNG)
+
 
 let's see what inside the spice file by "vim sky130_inv.spice".
 
-image17
+	vim sky130_inv.spice
+
 
 ### Sky130 Tech File labs
 
 #### Lab steps to create final SPICE dexk using sky130 tech.
 
-image18
+![x17](https://user-images.githubusercontent.com/123365615/216617607-a0bde5fc-4a42-4401-8fb6-7562f4fea3fd.PNG)
 
 here, we can see the all details about the connectivity of the NMOS and PMOS and about the power supply also.
 
@@ -2722,13 +2751,17 @@ X0 is NMOS and X1 is PMOS and both's connectivity is shown as GATE DRAIN SUBSTAT
 
 But here the scale is 10000 um. but in Magic simulation, it is 0.01.
 
-image19
+![x18](https://user-images.githubusercontent.com/123365615/216619803-68814805-5229-4ee8-afa1-cf71fbf0ed93.jpg)
 
 SO, we are going to change the dimension here in the terminal. so any measurement will be in this scale of 0.01u. i.e., width=37*0.01u.
 
 Now we have to include the PMOS and NMOS lib files. it is inside the libs folder in the vsdstdcellsdesign folder.
 
-image20
+	cd libs
+
+	ls -ltr
+
+![x20](https://user-images.githubusercontent.com/123365615/216621458-50f4d142-2737-49da-a0fe-e7ed99a2254e.PNG)
 
 so, now we include this file in the terminal by ".include ./libs/pshort.lib" and ".include ./libs/nshort.lib" comand.
 
