@@ -2771,11 +2771,15 @@ Now, we need to specify the input files. by Va A VGND PULSE(0V 3.3V 0 0.1ns 2ns 
 
 Also add the comand for the analysis like, ".tran 1n 20n", ".control" , "run",".endc",".end".
 
-image21
+	vim sky130_inv.spice
+
+![x21](https://user-images.githubusercontent.com/123365615/216654256-6557fe38-7662-412b-b7c4-aaaad5c810a4.PNG)
 
 after running this file we get output of ngspice like this,
 
-image22
+	ngspice sky130_inv.spice
+
+![x22](https://user-images.githubusercontent.com/123365615/216654350-48c8d843-6976-4e31-9a3d-bd5dcb84e7bc.PNG)
 
 Now, ploting the graph here by comand, "plot y vs time a".
 
