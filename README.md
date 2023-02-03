@@ -1906,7 +1906,7 @@ At normal terminal
 
 ![image](https://user-images.githubusercontent.com/123365615/216044886-f7683d8c-ed14-4a84-b642-7c8089be4fb4.png)
 
-# Day 2 -Good floorplanning Vs Bad floorplanning and introduction to library cells
+# Day 8 -Good floorplanning Vs Bad floorplanning and introduction to library cells
 
 ## Chip floorplanning considerations
 
