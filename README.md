@@ -2259,6 +2259,7 @@ After layout design, we have to ecxtract the layout and characterize it. In char
 
 As of now, from the circuit design and layout design, we have final layout of buffer cell. where two buffers are connected in series with each other.
 
+![image](https://user-images.githubusercontent.com/123365615/216573771-7db1a0f3-7704-4943-8bb6-b2fab99eef28.png)
 
 Now steps of flow is:
 
