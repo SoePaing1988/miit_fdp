@@ -2259,7 +2259,6 @@ After layout design, we have to ecxtract the layout and characterize it. In char
 
 As of now, from the circuit design and layout design, we have final layout of buffer cell. where two buffers are connected in series with each other.
 
-[image28](https://user-images.githubusercontent.com/123488595/215042474-c46416f4-7d0d-4a4d-8359-4d24144a2773.png)
 
 Now steps of flow is:
 
@@ -2277,11 +2276,11 @@ Now steps of flow is:
 
 #### Timing threshold defination
 
-![image](https://user-images.githubusercontent.com/123365615/216338883-677d6e05-bdaa-4583-8993-a4d056d61f37.png)
+![image](https://user-images.githubusercontent.com/123365615/216572741-2a4c7a33-87bc-43f3-b618-63016baa782d.png)
 
 Let we take the waveform from the output of the first buffer and it will be input of the second buffer and taking output of the second buffer also.
 
-[image30](https://user-images.githubusercontent.com/123488595/215048979-74e91dfe-b67e-42fc-8845-c70834af6314.png)
+![image](https://user-images.githubusercontent.com/123365615/216572810-cd91c174-2962-4a3e-9ff6-fcf720ea4d99.png)
 
 -	slew_low_rise_thr
 here low means nearer to the ground, and rise tresold means we want to measer the slope of the increasing graph. typical value of slew low rise thr is around 20-30%.
