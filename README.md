@@ -2372,6 +2372,7 @@ Then check the changes in the pins location through magic -T.
 
 image1
 
+
 So, here we can see that there are no pins in the upper half side. all pins are in the lower half of the core.
 
 SPICE deck creation for CMOS inverter
