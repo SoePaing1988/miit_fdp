@@ -2779,7 +2779,7 @@ after running this file we get output of ngspice like this,
 
 	ngspice sky130_inv.spice
 
-![x21](https://user-images.githubusercontent.com/123365615/216836084-a92502ae-343e-4537-a4be-946967e94723.PNG)
+![x25](https://user-images.githubusercontent.com/123365615/216836234-86110e79-5a3e-4e92-bf66-e493902e275c.PNG)
 
 Now, ploting the graph here by comand, "plot y vs time a".
 
