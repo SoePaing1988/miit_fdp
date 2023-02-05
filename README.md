@@ -2779,11 +2779,11 @@ after running this file we get output of ngspice like this,
 
 	ngspice sky130_inv.spice
 
-![x22](https://user-images.githubusercontent.com/123365615/216654350-48c8d843-6976-4e31-9a3d-bd5dcb84e7bc.PNG)
+![x21](https://user-images.githubusercontent.com/123365615/216836084-a92502ae-343e-4537-a4be-946967e94723.PNG)
 
 Now, ploting the graph here by comand, "plot y vs time a".
 
-image23
+![x22](https://user-images.githubusercontent.com/123365615/216836098-8cbde94e-03f3-457a-bee0-e512166f7598.PNG)
 
 ### Lab steps to characterize inverter using sky130 model file
 
