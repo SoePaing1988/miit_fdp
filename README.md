@@ -2773,13 +2773,13 @@ Also add the comand for the analysis like, ".tran 1n 20n", ".control" , "run",".
 
 	vim sky130_inv.spice
 
-![x21](https://user-images.githubusercontent.com/123365615/216654256-6557fe38-7662-412b-b7c4-aaaad5c810a4.PNG)
+![x21](https://user-images.githubusercontent.com/123365615/216836626-7a2b0648-2902-4388-b038-974d59448c15.PNG)
 
 after running this file we get output of ngspice like this,
 
 	ngspice sky130_inv.spice
 
-![x25](https://user-images.githubusercontent.com/123365615/216836234-86110e79-5a3e-4e92-bf66-e493902e275c.PNG)
+![x22](https://user-images.githubusercontent.com/123365615/216836644-8bb0d931-11ad-4d9c-b75e-a7885cab1ac0.PNG)
 
 Now, ploting the graph here by comand, "plot y vs time a".
 
