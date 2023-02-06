@@ -2773,7 +2773,7 @@ Also add the comand for the analysis like, ".tran 1n 20n", ".control" , "run",".
 
 	vim sky130_inv.spice
 
-![x21](https://user-images.githubusercontent.com/123365615/216836626-7a2b0648-2902-4388-b038-974d59448c15.PNG)
+![x21](https://user-images.githubusercontent.com/123365615/216883390-0212bdf4-63b1-4c36-9a65-ef499563a72d.png)
 
 after running this file we get output of ngspice like this,
 
@@ -2783,7 +2783,7 @@ after running this file we get output of ngspice like this,
 
 Now, ploting the graph here by comand, "plot y vs time a".
 
-![x22](https://user-images.githubusercontent.com/123365615/216836098-8cbde94e-03f3-457a-bee0-e512166f7598.PNG)
+https://user-images.githubusercontent.com/123365842/216802089-81cd80c1-cc44-419e-8189-51c695d3b009.png
 
 ### Lab steps to characterize inverter using sky130 model file
 
@@ -2793,7 +2793,7 @@ Here, we have to find value of 4 parameters.
 
 it is time taken to the output waveform to 20% value to 80% value.
 
-image24
+![image](https://user-images.githubusercontent.com/123365615/216883460-27cdfff6-02d3-4b6e-b821-b2834a687dc9.png)
 
 so, rise time= (4.00742-2.51611)e-09 = 1.4913 nsec.
 
@@ -2801,7 +2801,7 @@ so, rise time= (4.00742-2.51611)e-09 = 1.4913 nsec.
 
 it is the time take by output for transition from 80% to 20%.
 
-image25
+![image](https://user-images.githubusercontent.com/123365615/216883497-9f3cdc56-49ce-4641-9939-1d6c8cf2e3e6.png)
 
 so, fall time=0.08745 nsec.
 
@@ -2809,7 +2809,7 @@ so, fall time=0.08745 nsec.
 
 it is the time difference between the 50% of input and 50% of the output.
 
-image26
+![image](https://user-images.githubusercontent.com/123365615/216883527-93d68284-9a36-4d74-8871-f9f523c25585.png)
 
 so, propogation delay = 0.60185 nsec.
 
@@ -2817,7 +2817,7 @@ so, propogation delay = 0.60185 nsec.
 
 it is time for output falling to 50% and input is rising to 50%.
 
-image27
+![image](https://user-images.githubusercontent.com/123365615/216883560-56cbdc67-00c7-4f88-8933-2b5b0a7f2753.png)
 
 so, cell fall delay= 0.0778 nsec.
 
@@ -2836,7 +2836,7 @@ you need to folow certain guideline while making standerd cells.the guidelines a
 
 Now oprning the track file from the pdk/sky130/libs.tech /openlane/sky130_fd_sc_hd/track.info. where we get the info like this,
 
-image28
+![x26](https://user-images.githubusercontent.com/123365615/216883737-3d743570-d9d6-43d0-b41f-9efcc5e33f57.png)
 
 so, the track is basically nothing but it is used during the routing stage.Rout will be go over the tracks. tracks are basically trases of matel layers.i.e., metal 1, matel 2, etc.
 
@@ -2844,15 +2844,15 @@ PNR is a automated. so we need to specified, where from we want routs to go. thi
 
 In layout, we can see that the ports are on the li1 layer. so we need to insure that the ports are on the intersection of the tracks or not. For that we have to cinvert the grid into the tracks. for that we have to first into the tracks file and the open the tckon window and type the "help grid" comand.
 
-image29
+![x29](https://user-images.githubusercontent.com/123365615/216883875-d8c6c705-c998-49ef-9ce1-bf31a3a6d690.png)
 
 Then again write comand according to the track file.
 
-image30
+![image](https://user-images.githubusercontent.com/123365615/216883903-8ee92f1f-e951-4280-80ba-b4579e296b4d.png)
 
 Let's see the changes in the layout.
 
-image31
+![x31](https://user-images.githubusercontent.com/123365615/216884030-9778a137-d005-4a8f-9b2a-7dfa874b590d.png)
 
 Here we can see that, as per the guideline the ports are placed at the intersection of the tracks.
 
@@ -2865,13 +2865,13 @@ As it parameters are set, we are ready to extract the 'LEF' file from the "mag" 
 
 Now we can see this file in the vsdstdcellsdesign folder.
 
-image32
+![image](https://user-images.githubusercontent.com/123365615/216884583-d5db4ad5-f4b1-4c7b-8aa6-a65dc82e12de.png)
 
 Now, we open this file in the magic by using comand "magic -T sky130A.tech sky130_vsdinv.mag &".
 
 Now to extract the lef file we have to write the comand in the tckon window "lef write". so it will create a lef file and we can check it in the vsdstdcellsdesign folder.
 
-image33
+![image](https://user-images.githubusercontent.com/123365615/216884628-98395394-9444-4b5b-b818-b3e0c9995c46.png)
 
 Now, lef file is created and now next step is plug this lef file in picorv32a. before that we move our files to src folder where all the design files are available at one location.
 
@@ -2945,7 +2945,7 @@ If load is not same at the every nodes, the skew will not be the zero.
 Lab steps to configure synthesis settings to fix slack and include vsdinv
 After synthesis, we observed that the slack is nagative here. wns(worst negative slack)= -24.89 and tns(total negative slack)= -759.
 
-image34
+![image](https://user-images.githubusercontent.com/123365615/216884692-40a17fb1-9313-4d39-b2d9-cc7a86ed787e.png)
 
 let's do some modification here. for that opening the READme file from the /openlane/configuration/ less READme.md
 
@@ -2957,7 +2957,7 @@ Till here we not get slack 0. to make slack 0, we ahve to write comand "set ::en
 
 After running synthesis we will get improved timing.
 
-image35
+![image](https://user-images.githubusercontent.com/123365615/216884720-4ecdd3f4-2a64-47ea-8134-fb108d2df0e7.png)
 
 Next command for run is :
 
@@ -3022,7 +3022,7 @@ when we do CTS, CTS is a stage where, we add clock buffers along with clockpath 
 
 Now, we see what is in the my_base.sdc file. 
 
-image36
+![image](https://user-images.githubusercontent.com/123365615/216884771-f4207c46-9864-4d7e-8400-05b58d5df1c0.png)
 
 here, we can see the capacitor load and clock period and clock port etc.
 
@@ -3046,11 +3046,11 @@ detailed_placement
 
 After running the floorplaning and done the global placement we get positive slack.
 
-image37
+![image](https://user-images.githubusercontent.com/123365615/216884800-ece8edb0-9662-4dde-a2dc-a1b2af32f6d6.png)
 
 Then check the file which is created. Go to the placements folder under results and then invoke the magic tool and load the def file. The command is:magic -T /home/kunalg123/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 
-image38
+![image](https://user-images.githubusercontent.com/123365615/216884818-3f15d154-313e-44ea-83ee-1002bc3fbec8.png)
 
 Clock tree synthesis TritonCTS and signal integrity
 
@@ -3096,7 +3096,7 @@ Now, let's see about the delta delay.
 
 Now next step is CTS. for that write the command: "run_cts".
 
-image39
+![image](https://user-images.githubusercontent.com/123365615/216884856-0f027915-9fc3-4f85-9a1e-63489272a541.png)
 
 In CTS stage the buggers are added in the paths. so, it will modifiying the netlist. so, if we go in the synthesis folfer and check the files, where cts.v file will avaiilable and this file contains the added buffers.
 
@@ -3104,11 +3104,11 @@ In CTS stage the buggers are added in the paths. so, it will modifiying the netl
 
 we have run CTS.Now before we goes into the post cts flow, we need to know that the actual meaning of the "run" command. This is the proc of tcl file. so, lets see, from where, openlane take this procs. for that we need to goes into the openlane and then goes into scripts and then check the "tcl_commands". in this file tcl commands are there for every stages what we have run till now. so let's see the "cts.tcl" file.
 
-image40
+![image](https://user-images.githubusercontent.com/123365615/216884867-0dcc4276-eeca-4d69-bd4c-96ed12a29e11.png)
 
 here we can see the many procs are there. so here we can see the procs are run during the CTS run.
 
-image41
+![image](https://user-images.githubusercontent.com/123365615/216884882-07756563-51dd-4bc0-9040-9cfc90aba4d4.png)
 
 so when we run the cts in the flow, basically it do this things.
 
@@ -3122,7 +3122,7 @@ if we check the openroad folder, at that directory "or.files" are available whic
 
 Now les's check the "or_cts.tcl" file. inside this we can see the few switches.
 
-image42
+![image](https://user-images.githubusercontent.com/123365615/216884900-8219e76c-0628-4574-aae8-cbf2c047b6d3.png)
 
 Now lets check what the library does. For this command is "echo 
 ::env(LIB_TYPICAL)"
@@ -3137,7 +3137,7 @@ Now checking the branch buffer cells by command :"echo $::env(CTS_CLK_BUFFER_LIS
 
 And last cheching the root buffer by command: "echo $::env(CTS_ROOT_BUFFER)". So, we find that this "sky130_fd_sc_hd__clkbuf_16 " buffer is root buffer.
 
-image43
+![image](https://user-images.githubusercontent.com/123365615/216884929-4df01066-8065-404e-a006-d6757d688ae6.png)
 
 Timing analysis with real clocks using openSTA
 
@@ -3215,7 +3215,7 @@ so after running this we can see that the slack is positive for hold and setup b
 
 So, the Hold slack = 1.6982nsec because here we can see that (arrivel time) >(required time).
 
-image44
+![image](https://user-images.githubusercontent.com/123365615/216884971-59976ab3-0128-4585-af3a-537c2d4e3f78.png)
 
 NOw setup slack = 0.9457nsec because here we can see that (required time)>(arrival time).
 
@@ -3241,7 +3241,7 @@ report_checks -path_delay min_max -format full_clock_expanded -digits 4
 
 slack for typical coirner= 0.2429nsec
 
-image45
+![image](https://user-images.githubusercontent.com/123365615/216885006-d88d03b4-337a-453d-a0f3-e846fd17dc99.png)
 
 Now checking the branch buffer cells by command :"echo $::env(CTS_CLK_BUFFER_LIST)". and these are the buffer cells are listed there "sky130_fd_sc_hd__clkbuf_1 sky130_fd_sc_hd__clkbuf_2 sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8".
 
@@ -3348,7 +3348,7 @@ Now to check the which was the last stage we perorm, the command is:"echo $::env
 
 So, till now we have done CTS and now we are going to do the routing. but before routing we have to generate the PDN(power distribution network)file. for that command is: "gen_pdn".
 
-image46
+![image](https://user-images.githubusercontent.com/123365615/216885103-c0f54c65-4227-42bd-b521-cf16fbe61e5b.png)
 
 Here we can see the total number of nodes on the net VGND and it is also says that Grid matrix is created successfully. here total connection between all PDN nodes establish in the net VGND.
 
@@ -3358,7 +3358,7 @@ Now, till here we have picorv32a chip, and it needs the power. so it will get po
 
 To understan this, take an example here,
 
-image47
+![image](https://user-images.githubusercontent.com/123365615/216885150-6e0a2ffb-d1ff-4387-987e-a40a87e47160.png)
 
 In this figure, the green box is available is let say picorv32a chip. And the yellow, red and blue boxes which are the shown on the outside of the frame are the I/O pins and the power and ground pads. in this pads, the corner ones are called corner pads.
 
@@ -3397,7 +3397,7 @@ As shown in the figure, A,B,C,D are four pins which we want to connects through 
 
 Now, the routing is successfully done.
 
-image48
+![image](https://user-images.githubusercontent.com/123365615/216885182-6889a9a0-57b5-4831-8ae5-161bf6fa0577.png)
 
 #### Tritinroute features
 
@@ -3467,7 +3467,7 @@ Now, remaning things is the post routing STA analysis. for that the first goal i
 
 The .spef file can be found under the routing folder under the results folder.
 
-image49
+![image](https://user-images.githubusercontent.com/123365615/216885254-b4227301-dc51-45c5-b41e-882c8ad2bdcd.png)
 
 The following command can be used to stream in the generated GDSII file.
 
@@ -3475,11 +3475,11 @@ The following command can be used to stream in the generated GDSII file.
 
 Now the gds file will be generated and it is stored in the magic folder under results folder.
 
-image50
+![image](https://user-images.githubusercontent.com/123365615/216885276-c1971ab8-0206-48f1-90fb-82a70ca9b493.png)
 
 And the generated layout is,
 
-image51
+![image](https://user-images.githubusercontent.com/123365615/216885329-efe40d82-d34d-4a41-9c68-0126c0424500.png)
 
 All commands to run the openlane flow
 docker
